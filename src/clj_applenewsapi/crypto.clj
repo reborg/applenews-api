@@ -5,7 +5,7 @@
             [clj-time.core :as t]))
 
 (defn now []
-  (tf/unparse (tf/formatter  "Y-m-d'T'H:m:s'Z'") (t/now)))
+  (tf/unparse (tf/formatter  "YYYY-MM-dd'T'HH:mm:ss'Z'") (t/now)))
 
 (defn canonical [method url t]
   (str method url t))
