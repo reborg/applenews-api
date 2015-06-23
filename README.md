@@ -88,7 +88,7 @@ sudo keytool -importcert -file ~/example.crt -alias example -keystore $(/usr/lib
 * [x] hash-based message authentication
 * [x] image encoding helpers for multipart mime POST
 * [x] include signatures in headers
-* [ ] default to sandbox when no channel specified
+* [x] default to sandbox when no channel specified
 * [ ] other APIs
 * [ ] Need optional links for posting article multiple sections
 * [ ] multithreaded POST for bulk import
