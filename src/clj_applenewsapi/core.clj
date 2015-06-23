@@ -25,15 +25,21 @@
         auth (format "HHMAC; key=%s; signature=%s; date=%s" keyid digest t)]
     (update-in opts [:headers] #(assoc % "Authorization" auth))))
 
-(defn get-article [id channel-name]
-  (let [url (str (cfg/host) "/articles/" id)]
-    (client/get url (authorize default-opts "GET" url channel-name))))
+(defn get-article
+  ([id] (get-article id :sandbox))
+  ([id channel-name]
+   (let [url (str (cfg/host) "/articles/" id)]
+     (client/get url (authorize default-opts "GET" url channel-name)))))
 
-(defn get-channel [channel-name]
-  (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name))]
-    (client/get url (authorize default-opts "GET" url channel-name))))
+(defn get-channel
+  ([] (get-channel :sandbox))
+  ([channel-name]
+   (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name))]
+     (client/get url (authorize default-opts "GET" url channel-name)))))
 
-(defn create-article [channel-name bundle]
-  (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name) "/articles")
-        opts (authorize (post-opts (multipart bundle)) "POST" url channel-name)]
-    (client/post url opts)))
+(defn create-article
+  ([bundle] (create-article bundle :sandbox))
+  ([bundle channel-name]
+   (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name) "/articles")
+         opts (authorize (post-opts (multipart bundle)) "POST" url channel-name)]
+     (client/post url opts))))
