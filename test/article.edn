@@ -1,0 +1,31 @@
+{
+ :data {
+        :createdAt "2015-02-28T00:49:36Z"
+        :modifiedAt "2015-02-28T00:49:36Z"
+        :id "a3caeb08-b9db-4002-b379-cde305d74be7"
+        :type "article"
+        :document {
+                   :components [
+                                {
+                                 :role "photo"
+                                 :URL "bundle://mountain-lions.jpg"
+                                 :caption "Thanks to the record"
+                                 :backgroundColor "#FFFFFF"
+                                 :opacity 1
+                                 :fill {
+                                        :type "image"
+                                        :URL "bundle://gradient.png"
+                                        }
+                                 }
+                                ]
+                   }
+        :links {
+                :self "https://u48r14.digitalhub.com/articles/a3caeb08-b9db-4002-b379-cde305d74be7"
+                :channel "https://u48r14.digitalhub.com/channels/63a75491-2c4d-3530-af91-819be8c3ace0"
+                :sections [
+                           "https://u48r14.digitalhub.com/sections/0a468272-356f-3b61-afa3-c4f989954180"
+                           "https://u48r14.digitalhub.com/sections/0a664711-242f-6b13-1fa1-a6f081549989"
+                           ]
+                }
+        }
+ }
