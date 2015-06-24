@@ -8,8 +8,7 @@
             {:name name
              :filename filename
              :content-type content-type
-             ; :content (if url (io/input-stream url) content)})]
-             :content (if url (io/input-stream "/me/prj/dm/clj-applenewsapi/test/test.png") content)})]
+             :content (if url (io/input-stream url) content)})]
     (mapv prepare bundle)))
 
 (defn raw [bundle]
