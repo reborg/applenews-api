@@ -20,8 +20,24 @@
              (:filename (first (multipart bundle))) => "article.json"
              (:name (first (multipart bundle))) => "article"))
 
+(facts "mutlipart raw and utils"
+       (fact "it renders as a string"
+             (raw (stub :bundle)) => #"--(\S+)\r\n")
+       (fact "it can get the boundary string out"
+             (get-boundary (raw (stub :bundle))) => #"\S+"))
 
 ; (def multi {:multipart [{:name "title" :content "My Awesome Picture"} {:name "Content/type" :content "image/png"} {:name "foo.txt" :part-name "eggplant" :content "Eggplants"} {:name "file" :content (clojure.java.io/file "/Users/renzo.borgatti/Desktop/pic.png")}]})
+
+; (def bundle (read-string (slurp "test/bundle.edn")))
+; (c/create-article bundle)
+; (c/get-channel)
+; (require '[clj-http.multipart :as mp])
+; (require '[clj-applenewsapi.multipart :as mmp])
+; (import 'java.io.ByteArrayOutputStream)
+; (def baos (ByteArrayOutputStream.))
+; (def entity (mp/create-multipart-entity (mmp/multipart bundle)))
+; (.writeTo entity baos)
+; (.toString baos "UTF-8")
 
 #_(def images
   [["img1.jpg" "http://i.dailymail.co.uk/i/pix/2015/06/18/14/29BBC2B200000578-3129803-Before_Mrs_Howard_outside_the_property_in_Wiltshire_before_it_wa-a-36_1434633822823.jpg"]

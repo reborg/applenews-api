@@ -8,8 +8,9 @@
 (defn now []
   (tf/unparse (tf/formatter  "YYYY-MM-dd'T'HH:mm:ss'Z'") (t/now)))
 
-(defn canonical [method url t]
-  (str method url t))
+(defn canonical
+  ([method url t] (str method url t))
+  ([method url t content-type content] (str method url t content-type content)))
 
 (defn signature [canonical secret]
   (let [decoded (Base64/decodeBase64 (.getBytes secret "UTF-8"))
