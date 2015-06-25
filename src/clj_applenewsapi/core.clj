@@ -64,4 +64,5 @@
          content-type (str "multipart/form-data; boundary=" boundary)
          concatenated (concatenation "POST" url ts content-type payload)
          opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
-     (client/post url opts))))
+
+     (client/post url (assoc opts :throw-exceptions true)))))
