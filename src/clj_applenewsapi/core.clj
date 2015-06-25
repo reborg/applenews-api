@@ -6,7 +6,7 @@
 
 (def default-opts
   {
-   :debug true
+   ; :debug true
    :accept :json
    :socket-timeout 10000
    :conn-timeout 10000
