@@ -1,7 +1,9 @@
 (ns clj-applenewsapi.multipart
   (:require [clojure.java.io :as io]
-            [clj-http.multipart :as mp])
-  (:import [java.io ByteArrayOutputStream]))
+            [clj-http.multipart :as mp]
+            [clojure.string :refer [split]])
+  (:import [java.io ByteArrayOutputStream]
+           [java.util UUID]))
 
 (defn multipart [bundle]
   (letfn [(prepare [{:keys [name filename content-type content url] :as m}]
@@ -20,3 +22,44 @@
 
 (defn get-boundary [raw-bundle]
   (last (re-find #"--(\S+)\r\n" raw-bundle)))
+
+(defn random []
+  (.replaceAll (str (UUID/randomUUID)) "-" ""))
+
+(defn part [boundary c-type c-name txt]
+  (str (format "--%s\r\n" boundary)
+       (format "Content-Type: %s\r\n" c-type)
+       (format "Content-Disposition: form-data; name=%s; filename=%s; size=%s\r\n" c-name c-name (alength (.getBytes txt)))
+       "\r\n"
+       txt
+       "\r\n"))
+
+(defn mime-type [url]
+  (let [ext (last (split url #"\."))]
+    (cond
+      (= "jpg" ext)  "image/jpeg"
+      (= "jpeg" ext) "image/jpeg"
+      (= "png" ext)  "image/png"
+      (= "bmp" ext)  "image/bmp"
+      (= "gif" ext)  "image/gif"
+      (= "tif" ext)  "image/tiff"
+      (= "tiff" ext) "image/tiff"
+      (= "ico" ext)  "image/x-icon"
+      :else "application/octet-stream")))
+
+(defn file-name [url]
+  (last (split url #"/")))
+
+(defn create-parts-for-files [boundary urls]
+  (letfn [(f [url]
+            (part boundary (mime-type url) (file-name url) (slurp url :encoding  "UTF-8")))]
+  (apply str (map f urls))))
+
+(defn payload [boundary bundle]
+  (let [article-json (:content (first (filter #(= "article.json" (:filename %)) bundle)))
+        metadata (:content (first bundle))
+        urls (remove nil? (mapv :url bundle))]
+    (str (part boundary  "application/json" "metadata" metadata)
+         (part boundary  "application/json" "article.json" article-json)
+         (create-parts-for-files boundary urls)
+         (format "--%s--" boundary))))

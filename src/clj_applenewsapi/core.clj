@@ -6,15 +6,16 @@
 
 (def default-opts
   {
-   ; :debug true
+   :debug true
    :accept :json
    :socket-timeout 10000
    :conn-timeout 10000
    :headers {}})
 
-(defn post-opts [mpart]
+(defn post-opts [boundary payload]
   (-> default-opts
-      (assoc :multipart mpart)))
+      (assoc :body payload)
+      (assoc :content-type (str "multipart/form-data; boundary=" boundary))))
 
 (defn concatenation
   ([method url ts]
@@ -58,8 +59,9 @@
   ([bundle channel-name]
    (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name) "/articles")
          ts (now)
-         raw-bundle (multipart/raw bundle)
-         content-type (str "multipart/form-data; boundary=" (multipart/get-boundary raw-bundle))
-         concatenated (concatenation "POST" url ts content-type raw-bundle)
-         opts (authorize (post-opts (multipart/multipart bundle)) concatenated ts channel-name)]
+         boundary (multipart/random)
+         payload (multipart/payload boundary bundle)
+         content-type (str "multipart/form-data; boundary=" boundary)
+         concatenated (concatenation "POST" url ts content-type payload)
+         opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
      (client/post url opts))))
