@@ -8,23 +8,8 @@
            [org.apache.commons.imaging.formats.jpeg.exif ExifRewriter]
            [java.util UUID]))
 
-(defn multipart [bundle]
-  (letfn [(prepare [{:keys [name filename content-type content url] :as m}]
-            {:name name
-             :filename filename
-             :content-type content-type
-             :content (if url (io/input-stream url) content)})]
-    (mapv prepare bundle)))
-
-(defn raw [bundle]
-  (let [baos (ByteArrayOutputStream.)]
-    (-> (multipart bundle)
-        (mp/create-multipart-entity)
-        (.writeTo baos))
-    (.toString baos "UTF-8")))
-
-(defn get-boundary [raw-bundle]
-  (last (re-find #"--(\S+)\r\n" raw-bundle)))
+(set! *warn-on-reflection* true)
+(set! *unchecked-math* :warn-on-boxed)
 
 (defn random []
   (.replaceAll (str (UUID/randomUUID)) "-" ""))

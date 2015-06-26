@@ -31,13 +31,4 @@
                  (authorize anything anything anything :sandbox) => "whateva"
                  (clj-http.client/get anything anything) => (stub :article)))))
 
-; (def bundle (read-string (slurp "test/bundle.edn")))
-; (c/create-article bundle)
-; (c/get-channel)
-; (require '[clj-http.multipart :as mp])
-; (require '[clj-applenewsapi.multipart :as mmp])
-; (import 'java.io.ByteArrayOutputStream)
-; (def baos (ByteArrayOutputStream.))
-; (def entity (mp/create-multipart-entity (mmp/multipart bundle)))
-; (.writeTo entity baos)
-; (.toString baos "UTF-8")
+; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle))
