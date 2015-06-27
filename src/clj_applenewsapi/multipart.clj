@@ -3,7 +3,6 @@
             [clj-http.multipart :as mp]
             [clojure.string :refer [split]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
-           [javax.imageio ImageIO]
            [java.net URL]
            [org.apache.commons.imaging.formats.jpeg.exif ExifRewriter]
            [java.util UUID]))
@@ -46,7 +45,10 @@
 
 (defn create-parts-for-files [boundary urls]
   (letfn [(f [url]
-            (part boundary (mime-type url) (file-name url) (slurp (strip-headers url) :encoding "UTF-8")))]
+            (part boundary
+                  (mime-type url)
+                  (file-name url)
+                  (slurp (strip-headers url) :encoding "UTF-8")))]
   (apply str (map f urls))))
 
 (defn payload [boundary bundle]

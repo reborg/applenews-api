@@ -14,14 +14,3 @@
    {:name "img2" :filename "img2.png" :content-type "image/png" :url "file:./test/test.png"}
    {:name "img3" :filename "img3.png" :content-type "image/png" :url "file:./test/test.png"}
    ])
-
-(facts "multipart composition"
-       (fact "the article is at the top"
-             (:filename (first (multipart bundle))) => "article.json"
-             (:name (first (multipart bundle))) => "article"))
-
-(facts "mutlipart raw and utils"
-       (fact "it renders as a string"
-             (raw (stub :bundle)) => #"--(\S+)\r\n")
-       (fact "it can get the boundary string out"
-             (get-boundary (raw (stub :bundle))) => #"\S+"))
