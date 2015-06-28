@@ -17,12 +17,6 @@
       (assoc :body payload)
       (assoc :content-type (str "multipart/form-data; boundary=" boundary))))
 
-(defn concatenation
-  ([method url ts]
-   (canonical method url ts))
-  ([method url ts content-type content]
-   (canonical method url ts content-type content)))
-
 (defn authorize [opts concatenated ts channel-name]
   (let [secret (cfg/api-key-secret channel-name)
         keyid (cfg/api-key-id channel-name)
@@ -35,7 +29,7 @@
   ([id channel-name]
    (let [url (str (cfg/host) "/articles/" id)
          ts (now)
-         concatenated (concatenation "GET" url ts)]
+         concatenated (canonical "GET" url ts)]
      (client/get url (authorize default-opts concatenated ts channel-name)))))
 
 (defn get-channel
@@ -43,7 +37,7 @@
   ([channel-name]
    (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name))
          ts (now)
-         concatenated (concatenation "GET" url ts)]
+         concatenated (canonical "GET" url ts)]
      (client/get url (authorize default-opts concatenated ts channel-name)))))
 
 (defn get-section
@@ -51,7 +45,7 @@
   ([id channel-name]
    (let [url (str (cfg/host) "/sections/" id)
          ts (now)
-         concatenated (concatenation "GET" url ts)]
+         concatenated (canonical "GET" url ts)]
      (client/get url (authorize default-opts concatenated ts channel-name)))))
 
 (defn create-article
@@ -62,7 +56,6 @@
          boundary (multipart/random)
          payload (multipart/payload boundary bundle)
          content-type (str "multipart/form-data; boundary=" boundary)
-         concatenated (concatenation "POST" url ts content-type payload)
+         concatenated (canonical "POST" url ts content-type payload)
          opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
-
      (client/post url (assoc opts :throw-exceptions true)))))

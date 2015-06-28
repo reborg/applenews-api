@@ -1,6 +1,7 @@
 (ns clj-applenewsapi.multipart
   (:require [clojure.java.io :as io]
             [clj-http.multipart :as mp]
+            [clojure.java.io :refer [copy]]
             [clojure.string :refer [split]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
            [java.net URL]
@@ -8,18 +9,25 @@
            [java.util UUID]))
 
 (set! *warn-on-reflection* true)
-(set! *unchecked-math* :warn-on-boxed)
+
+(defn to-bytes [^String s]
+  (.getBytes s "UTF-8"))
 
 (defn random []
   (.replaceAll (str (UUID/randomUUID)) "-" ""))
 
-(defn part [boundary c-type c-name txt]
-  (str (format "--%s\r\n" boundary)
-       (format "Content-Type: %s\r\n" c-type)
-       (format "Content-Disposition: form-data; name=%s; filename=%s; size=%s\r\n" c-name c-name (alength (.getBytes txt)))
-       "\r\n"
-       txt
-       "\r\n"))
+(defn part
+  "Create the part composing all the necessary pieces
+  together into a byte-array. Payload is expected to be [B"
+  [boundary c-type c-name ^bytes payload out]
+  (let [header (str (format "--%s\r\n" boundary)
+                    (format "Content-Type: %s\r\n" c-type)
+                    (format "Content-Disposition: form-data; name=%s; filename=%s; size=%s\r\n" c-name c-name (alength payload)))
+        return "\r\n"]
+    (copy (to-bytes header) out)
+    (copy (to-bytes return) out)
+    (copy payload out)
+    (copy (to-bytes return) out)))
 
 (defn mime-type [url]
   (let [ext (last (split url #"\."))]
@@ -43,19 +51,27 @@
     (.removeExifMetadata (ExifRewriter.) is os)
     (ByteArrayInputStream. (.toByteArray os))))
 
-(defn create-parts-for-files [boundary urls]
-  (letfn [(f [url]
-            (part boundary
-                  (mime-type url)
-                  (file-name url)
-                  (slurp (strip-headers url) :encoding "UTF-8")))]
-  (apply str (map f urls))))
+(defn as-bytes
+  "Slurp the bytes from the url into a ByteArrayOuputStream and returns it."
+  [url]
+  (with-open [out (java.io.ByteArrayOutputStream.)]
+    (copy (clojure.java.io/input-stream url) out)
+    (.toByteArray out)))
+
+(defn create-parts-for-files [boundary urls out]
+  (doseq [url urls]
+    (part boundary
+          (mime-type url)
+          (file-name url)
+          (as-bytes url) out)))
 
 (defn payload [boundary bundle]
   (let [article-json (:content (first (filter #(= "article.json" (:filename %)) bundle)))
         metadata (:content (first bundle))
         urls (remove nil? (mapv :url bundle))]
-    (str (part boundary  "application/json" "metadata" metadata)
-         (part boundary  "application/json" "article.json" article-json)
-         (create-parts-for-files boundary urls)
-         (format "--%s--" boundary))))
+    (with-open [out (ByteArrayOutputStream.)]
+      (part boundary "application/json" "metadata" (to-bytes metadata) out)
+      (part boundary "application/json" "article.json" (to-bytes article-json) out)
+      (create-parts-for-files boundary urls out)
+      (copy (to-bytes (format "--%s--" boundary)) out)
+      (.toByteArray out))))
