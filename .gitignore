@@ -11,3 +11,4 @@ pom.xml.asc
 .hg/
 /test/bundleprivate.edn
 /test/bundle.edn
+docs

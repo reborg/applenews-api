@@ -8,8 +8,8 @@
   {
    ; :debug true
    :accept :json
-   :socket-timeout 10000
-   :conn-timeout 10000
+   :socket-timeout 20000
+   :conn-timeout 20000
    :headers {}})
 
 (defn post-opts [boundary payload]
