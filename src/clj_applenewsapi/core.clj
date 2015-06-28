@@ -48,6 +48,14 @@
          concatenated (canonical "GET" url ts)]
      (client/get url (authorize default-opts concatenated ts channel-name)))))
 
+(defn get-sections
+  ([] (get-sections :sandbox))
+  ([channel-name]
+   (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name) "/sections/")
+         ts (now)
+         concatenated (canonical "GET" url ts)]
+     (client/get url (authorize default-opts concatenated ts channel-name)))))
+
 (defn create-article
   ([bundle] (create-article bundle :sandbox))
   ([bundle channel-name]
@@ -58,4 +66,7 @@
          content-type (str "multipart/form-data; boundary=" boundary)
          concatenated (canonical "POST" url ts content-type payload)
          opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
-     (client/post url (assoc opts :throw-exceptions true)))))
+     (select-keys (client/post url (assoc opts :throw-exceptions true)) [:status :request-time :trace-redirects]))))
+
+; test with
+; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))
