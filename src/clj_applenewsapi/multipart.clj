@@ -4,7 +4,7 @@
             [clojure.java.io :refer [copy]]
             [clojure.string :refer [split]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
-           [java.net URL]
+           [java.net URL URLConnection]
            [org.apache.commons.imaging.formats.jpeg.exif ExifRewriter]
            [java.util UUID]))
 
@@ -55,8 +55,12 @@
   "Slurp the bytes from the url into a ByteArrayOuputStream and returns it."
   [url]
   (with-open [out (java.io.ByteArrayOutputStream.)]
-    (copy (clojure.java.io/input-stream url) out)
-    (.toByteArray out)))
+          (let [^URLConnection conn (doto
+                                      (.openConnection (URL. url))
+                                      (.setConnectTimeout 30000)
+                                      (.setReadTimeout 90000))]
+            (copy (.getInputStream conn) out)
+            (.toByteArray out))))
 
 (defn create-parts-for-files [boundary urls out]
   (doseq [url urls]

@@ -7,10 +7,10 @@
 (def default-opts
   {
    ; :debug true
-   :throw-exceptions true
+   :throw-exceptions false
    :accept :json
-   :socket-timeout 20000
-   :conn-timeout 20000
+   :socket-timeout 10000
+   :conn-timeout 10000
    :headers {}})
 
 (defn post-opts [boundary payload]
