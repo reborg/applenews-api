@@ -2,63 +2,66 @@
 
 clj-applenewsapi is a Clojure client for the [Apple Publisher REST api](https://developer.apple.com/news-publisher/).
 
-## Confidentiality Note
-
-*PLEASE NOTE*: at the moment of writing this first release, the Apple News Push API and related native formats are under NDA. The detail of the API and the overall details of the Apple News app should therefore not be disclosed publicly in any way.
-
 ## How to use
 
 Add:
 
-        [clj-applenewsapi "0.1.0"]
+```clojure
+:dependencies [[clj-applenewsapi "0.1.0"]]
+:plugins [[lein-environ "1.0.0"]]
+```
 
-to your project.clj. Here's an example snippet:
+to your project.clj dependencies section and. Here's an example snippet:
 
 ```clojure
     (ns your-prj
       (:require [clj-applenewsapi.core :as clj-applenewsapi]))
 
     ; retrieve an article by ID
-    (clj-applenewsapi/article "a3caeb08-b9db-4002-b379-cde305d74be7")
+    (clj-applenewsapi/get-article "a3caeb08-b9db-4002-b379-cde305d74be7")
+
+    ; retrieve data for a channel
+    (clj-applenewsapi/get-channel :mytestchannel)
 ```
+
 ## Configuration
 
-See the options below. clj-applenewsapi integrates with leiningen environment map through [environ](https://github.com/weavejester/environ) for all local development needs. It also accepts overrides as environment properties or JVM properties for production environment. Finally, it offers a programmatic way to override properties with a rebindable dynamic *env* var.
+clj-applenewsapi integrates with the leiningen environment map through [environ](https://github.com/weavejester/environ) for all general needs. It also  offers a programmatic way to override properties with a re-bindable dynamic *env* var.
 
-If you pick "development" or "production" style below, you will need "lein-environ" dependencies in your project.clj :plugins section (lein-environ is responsible for reading environments).
+### Configuring through `~/.lein/profiles.clj`
 
-### development
+Configuring trough `~/.lein/profiles.clj` is the preferred method, so your credentials are always protected from an accidental source control commit. Add the following:
+
+```clojure
+{:user {
+  :plugins []
+  :env {:clj-applenewsapi {:host "https://apple-new-service-host"
+    :channels {:ch1 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
+                     :api-key-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
+                     :api-key-secret "99999+p22222222222p34444444444444T2XnMyiNmI="}
+               :ch2 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
+                     :api-key-id "0936fc13-90eb-4391-8fbc-0cbc6104f3c"
+                     :api-key-secret "99999+p22222222222p34444444444444T2XnMyiNmI="}}}}}}
+```
+
+### Configuring through a project local configuration file
 
 A file called sample_profiles.clj is provided to you in the main clj-applenewsapi project directory:
 
 * Copy sample_profiles.clj into your project root
 * Rename sample_profiles.clj to profiles.clj
 * Change the relevant values inside it to point to your Apple News key and secret
-* Add the following lines inside your project.clj so clj-applenewsapi can pick up envirnment variables when running lein repl:
+* Add the following lines inside your project.clj so clj-applenewsapi can pick up environment variables when running lein repl:
 
 ```clojure
 :aliases {"repl" ["with-profile" "+dev-cfg" "repl"]}
 ```
 
 * Create similar aliases for other lein tasks (e.g. test) as needed
-* Alternatively, the same variables can be added to ~/.lein/profiles.clj or the project.clj in your project:
-
-```clojure
-{:clj-applenewsapi {:host "https://testhost"
-                    :channels {:ch1 {:channel-id "ch1-id"
-                                     :api-key-id "ch1-key"
-                                     :api-key-secret "ch1-secret"}
-                               :ch2 {:channel-id "ch2-id"
-                                     :api-key-id "ch2-key"
-                                     :api-key-secret "ch2-secret"}
-                               :ch3 {:channel-id "ch3-id"
-                                     :api-key-id "ch3-key"
-                                     :api-key-secret "ch3-secret"}}}}
-```
 
 ### programmatic
 
-If the configuration for your project is coming from other than the classpath, files or system environment (for example a db or zookeeper) you can fetch the variables and pass them down to clj-applenewsapi as follow:
+If the configuration for your project is coming from other than the classpath, files or system environment (for example database or zookeeper) you can fetch the variables and pass them down to clj-applenewsapi as follow:
 
 ```clojure
 (ns your-prj
@@ -66,16 +69,16 @@ If the configuration for your project is coming from other than the classpath, f
             [clj-applenewsapi.config :refer [*env*]]))
 
     ; retrieve all pools using a custom config
-    (binding [*env* {}]
-      (clj-applenewsapi/article "articleid"))
+    (binding [*env* {:applenewsapi {:channel {…}}}]
+      (clj-applenewsapi/get-article "articleid"))
 ```
 
 ### Certificate things
 
-If you happen to incur in a "unable to find valid certification path to requested target" exception (because the target server is returning an untrusted certificate) do the following, replacing hostname:port with the target server hostname and port:
+If you happen to incur in a "unable to find valid certification path to requested target" exception this is because the Apple Publisher Server certificate is not known in your certificate chain. Use the following to add the certificate. host must be replaced with the apple publisher server endpoint, port is 443:
 
 ```
-openssl x509 -in <(openssl s_client -connect hostname:port -prexit 2>/dev/null) -out ~/example.crt
+openssl x509 -in <(openssl s_client -connect hostname:443 -prexit 2>/dev/null) -out ~/example.crt
 sudo keytool -importcert -file ~/example.crt -alias example -keystore $(/usr/libexec/java_home)/jre/lib/security/cacerts -storepass changeit
 ```
 
@@ -85,11 +88,6 @@ sudo keytool -importcert -file ~/example.crt -alias example -keystore $(/usr/lib
 
 ## TODO
 
-* [x] hash-based message authentication
-* [x] image encoding helpers for multipart mime POST
-* [x] include signatures in headers
-* [x] default to sandbox when no channel specified
-* [ ] other APIs
-* [ ] Need optional links for posting article multiple sections
-* [ ] multithreaded POST for bulk import
-* [ ] bulk import: given list of IDS bulk post them all
+* [ ] delete API
+* [ ] additional metadata for articles (related, featured sponsored)
+* [ ] parallel bulk creation of articles
