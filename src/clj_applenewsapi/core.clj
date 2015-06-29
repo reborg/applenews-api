@@ -9,7 +9,7 @@
    ; :debug true
    :throw-exceptions false
    :accept :json
-   :socket-timeout 10000
+   :socket-timeout 30000
    :conn-timeout 10000
    :headers {}})
 
