@@ -7,6 +7,7 @@
 (def default-opts
   {
    ; :debug true
+   :throw-exceptions true
    :accept :json
    :socket-timeout 20000
    :conn-timeout 20000
@@ -66,7 +67,7 @@
          content-type (str "multipart/form-data; boundary=" boundary)
          concatenated (canonical "POST" url ts content-type payload)
          opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
-     (select-keys (client/post url (assoc opts :throw-exceptions true)) [:status :request-time :trace-redirects]))))
+     (client/post url opts))))
 
 ; test with
 ; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))
