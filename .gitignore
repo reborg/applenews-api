@@ -10,5 +10,4 @@ pom.xml.asc
 .hgignore
 .hg/
 /test/bundleprivate.edn
-/test/bundle.edn
 docs
