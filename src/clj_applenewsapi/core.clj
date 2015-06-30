@@ -2,6 +2,7 @@
   (:require [clj-http.client :as client]
             [clj-applenewsapi.crypto :refer [signature now canonical]]
             [clj-applenewsapi.multipart :as multipart]
+            [clj-applenewsapi.parallel :as parallel]
             [clj-applenewsapi.config :as cfg]))
 
 (def default-opts
@@ -76,6 +77,13 @@
          concatenated (canonical "POST" url ts content-type payload)
          opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
      (client/post url opts))))
+
+(defn create-articles
+  "250 is the chunk size (that will spawn 250 threads) in case
+  of big lists"
+  ([bundles] (create-articles bundles :sandbox))
+  ([bundles channel-name]
+   (doall (parallel/ppmap #(create-article % channel-name) bundles 250))))
 
 ; test with
 ; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))
