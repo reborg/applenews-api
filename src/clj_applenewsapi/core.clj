@@ -33,6 +33,14 @@
          concatenated (canonical "GET" url ts)]
      (client/get url (authorize default-opts concatenated ts channel-name)))))
 
+(defn delete-article
+  ([id] (delete-article id :sandbox))
+  ([id channel-name]
+   (let [url (str (cfg/host) "/articles/" id)
+         ts (now)
+         concatenated (canonical "DELETE" url ts)]
+     (client/delete url (authorize default-opts concatenated ts channel-name)))))
+
 (defn get-channel
   ([] (get-channel :sandbox))
   ([channel-name]
