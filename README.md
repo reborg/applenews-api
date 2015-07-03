@@ -88,6 +88,7 @@ sudo keytool -importcert -file ~/example.crt -alias example -keystore $(/usr/lib
 
 ## TODO
 
-* [ ] delete API
+* [ ] bulk delete delete API
 * [ ] additional metadata for articles (related, featured sponsored)
 * [ ] parallel bulk creation of articles
+* [ ] Java interface
