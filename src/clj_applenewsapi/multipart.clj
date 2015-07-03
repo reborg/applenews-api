@@ -2,16 +2,13 @@
   (:require [clojure.java.io :as io]
             [clj-http.multipart :as mp]
             [clojure.java.io :refer [copy]]
-            [clojure.string :refer [split]])
+            [clj-applenewsapi.image :as image]
+            [clj-applenewsapi.bytes :refer [to-bytes url-to-bytearray]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
            [java.net URL URLConnection]
-           [org.apache.commons.imaging.formats.jpeg.exif ExifRewriter]
            [java.util UUID]))
 
 (set! *warn-on-reflection* true)
-
-(defn to-bytes [^String s]
-  (.getBytes s "UTF-8"))
 
 (defn random []
   (.replaceAll (str (UUID/randomUUID)) "-" ""))
@@ -29,53 +26,30 @@
     (copy payload out)
     (copy (to-bytes return) out)))
 
-(defn mime-type [url]
-  (let [ext (last (split url #"\."))]
-    (cond
-      (= "jpg" ext)  "image/jpeg"
-      (= "jpeg" ext) "image/jpeg"
-      (= "png" ext)  "image/png"
-      (= "bmp" ext)  "image/bmp"
-      (= "gif" ext)  "image/gif"
-      (= "tif" ext)  "image/tiff"
-      (= "tiff" ext) "image/tiff"
-      (= "ico" ext)  "image/x-icon"
-      :else "application/octet-stream")))
-
-(defn file-name [url]
-  (last (split url #"/")))
-
-(defn strip-headers [url]
-  (let [is (.openStream (URL. url))
-        os (ByteArrayOutputStream.)]
-    (.removeExifMetadata (ExifRewriter.) is os)
-    (ByteArrayInputStream. (.toByteArray os))))
-
-(defn as-bytes
-  "Slurp the bytes from the url into a ByteArrayOuputStream and returns it."
-  [url]
-  (with-open [out (java.io.ByteArrayOutputStream.)]
-          (let [^URLConnection conn (doto
-                                      (.openConnection (URL. url))
-                                      (.setConnectTimeout 30000)
-                                      (.setReadTimeout 90000))]
-            (copy (.getInputStream conn) out)
-            (.toByteArray out))))
-
-(defn create-parts-for-files [boundary urls out]
-  (doseq [url urls]
-    (part boundary
-          (mime-type url)
-          (file-name url)
-          (as-bytes url) out)))
+(defn embed-parts
+  "All other mime parts other than article and metadata,
+  like images, fonts or other binaries. Optionally takes a
+  thumbnail url image that when present will be checked for
+  minimum size requirements and interpolated accordingly."
+  ([boundary part-urls out]
+   (embed-parts boundary part-urls out nil))
+  ([boundary part-urls out thumbnail-url]
+   (doseq [part-url part-urls]
+     (part boundary
+           (image/mime-type part-url)
+           (image/file-name part-url)
+           (if (image/thumbnail? thumbnail-url part-url)
+             (image/adjust-size part-url)
+             (url-to-bytearray part-url)) out))))
 
 (defn payload [boundary bundle]
   (let [article-json (:content (first (filter #(= "article.json" (:filename %)) bundle)))
-        metadata (:content (first bundle))
-        urls (remove nil? (mapv :url bundle))]
+        thumbnail-url "some"
+        metadata (:content (first (filter #(= "metadata" (:name %)) bundle)))
+        part-urls (remove nil? (mapv :url bundle))]
     (with-open [out (ByteArrayOutputStream.)]
       (part boundary "application/json" "metadata" (to-bytes metadata) out)
       (part boundary "application/json" "article.json" (to-bytes article-json) out)
-      (create-parts-for-files boundary urls out)
+      (embed-parts boundary part-urls out thumbnail-url)
       (copy (to-bytes (format "--%s--" boundary)) out)
       (.toByteArray out))))

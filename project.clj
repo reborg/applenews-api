@@ -1,14 +1,13 @@
-(defproject clj-applenewsapi "0.0.9"
+(defproject clj-applenewsapi "0.0.10"
   :description "Clojure library to talk to Apple Publisher API services"
   :dependencies [[org.clojure/clojure "1.7.0-RC2"]
                  [clj-http "1.1.2"]
                  [environ "1.0.0"]
-                 [commons-codec/commons-codec "1.9"]
-                 [org.apache.commons/commons-imaging "1.0-SNAPSHOT"]
                  [bytebuffer  "0.2.0"]
+                 [org.imgscalr/imgscalr-lib "4.2"]
                  [clj-time "0.9.0"]]
   :plugins [[lein-environ "1.0.0"]]
-  :repositories [["apache" "https://repository.apache.org/content/repositories/snapshots/"]]
+  :repositories [["buzz" "http://maven.thebuzzmedia.com"]]
   :repl-options {:init (do (require 'midje.repl) (midje.repl/autotest))
                  :timeout 25000000000}
   :profiles {:dev {:dependencies [[midje "1.7.0-beta1"]]}}
