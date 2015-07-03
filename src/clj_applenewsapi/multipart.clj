@@ -44,7 +44,7 @@
 
 (defn payload [boundary bundle]
   (let [article-json (:content (first (filter #(= "article.json" (:filename %)) bundle)))
-        thumbnail-url "some"
+        thumbnail-url (last (re-find #"\"thumbnailURL\"\:\"bundle\://(.*)\",\"canonicalURL" article-json))
         metadata (:content (first (filter #(= "metadata" (:name %)) bundle)))
         part-urls (remove nil? (mapv :url bundle))]
     (with-open [out (ByteArrayOutputStream.)]

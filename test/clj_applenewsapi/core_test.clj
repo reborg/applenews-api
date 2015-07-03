@@ -31,4 +31,4 @@
                  (authorize anything anything anything :sandbox) => "whateva"
                  (clj-http.client/get anything anything) => (stub :article)))))
 
-; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle))
+; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn"))) (c/create-article bundle))
