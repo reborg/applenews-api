@@ -3,7 +3,8 @@
             [clj-applenewsapi.core :refer :all]
             [clojure.java.io :as io]
             [clj-applenewsapi.config :refer [*env*]]
-            [clojure.edn :as edn]))
+            [clojure.edn :as edn])
+  (:import [org.imgscalr Scalr]))
 
 (def rest-sample-config
   {:clj-applenewsapi {:host "https://testhost"
