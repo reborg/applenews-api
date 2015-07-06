@@ -40,9 +40,10 @@
             (let [image (ImageIO/read is)
                   width (.getWidth image)
                   height (.getHeight image)]
-              (when (or (< width 600) (< height 400))
-                (-> (Scalr/resize image org.imgscalr.Scalr$Mode/AUTOMATIC 700 420 (make-array BufferedImageOp 0))
-                    (ImageIO/write (extension url) os)
-                    ; (ImageIO/write (extension url) (FileOutputStream. "resized-700-420.jpg"))
-                    ))))]
+              (-> (if (or (< width 600) (< height 400))
+                    (Scalr/resize image org.imgscalr.Scalr$Mode/AUTOMATIC 700 420 (make-array BufferedImageOp 0))
+                    image)
+                  (ImageIO/write (extension url) os)
+                  ; (ImageIO/write (extension url) (FileOutputStream. "resized-700-420.jpg"))
+                  )))]
     (bbytes/with-url url f)))
