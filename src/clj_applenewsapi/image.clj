@@ -1,6 +1,7 @@
 (ns clj-applenewsapi.image
   (:require [clojure.string :refer [split]]
             [clj-applenewsapi.bytes :as bbytes]
+            [clj-applenewsapi.config :refer [resize-thumbnail? thumbnail-resize-height thumbnail-resize-width]]
             [clojure.java.io :refer [copy]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileOutputStream]
            [javax.imageio ImageIO]
@@ -40,8 +41,8 @@
             (let [image (ImageIO/read is)
                   width (.getWidth image)
                   height (.getHeight image)]
-              (-> (if (or (< width 600) (< height 400))
-                    (Scalr/resize image org.imgscalr.Scalr$Mode/AUTOMATIC 700 420 (make-array BufferedImageOp 0))
+              (-> (if (and (resize-thumbnail?) (or (< width 600) (< height 400)))
+                    (Scalr/resize image org.imgscalr.Scalr$Mode/AUTOMATIC (thumbnail-resize-width) (thumbnail-resize-height) (make-array BufferedImageOp 0))
                     image)
                   (ImageIO/write (extension url) os)
                   ; (ImageIO/write (extension url) (FileOutputStream. "resized-700-420.jpg"))

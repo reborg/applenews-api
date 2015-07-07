@@ -1,6 +1,6 @@
 # clj-applenewsapi
 
-clj-applenewsapi is a Clojure client for the [Apple Publisher REST api](https://developer.apple.com/news-publisher/).
+clj-applenewsapi is a Clojure client for the [Apple Publisher REST api](https://developer.apple.com/news-publisher/). Apart from offering basic wrapping around REST endpoints, it adds bulk creation/deletion in parallel and automatic thumbnail image resizing.
 
 ## How to use
 
@@ -35,7 +35,10 @@ Configuring trough `~/.lein/profiles.clj` is the preferred method, so your crede
 ```clojure
 {:user {
   :plugins []
-  :env {:clj-applenewsapi {:host "https://apple-new-service-host"
+  :env {:clj-applenewsapi {:thumbnail-resize-enable true
+                           :thumbnail-resize-height 666
+                           :thumbnail-resize-width 888
+                           :host "https://apple-new-service-host"
     :channels {:ch1 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                      :api-key-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                      :api-key-secret "99999+p22222222222p34444444444444T2XnMyiNmI="}
@@ -73,6 +76,10 @@ If the configuration for your project is coming from other than the classpath, f
       (clj-applenewsapi/get-article "articleid"))
 ```
 
+### Image automatic resizing
+
+Apple specification restricts the minimum size for the thumbnail image, the image that is used on the section along with a preview of the article. The image must be at minimum 600x400 with no maximum restrictions (other than 20MB total payload size to create an article). You can let applenewsapi to resize it for you, interpolating a smaller image to a slightly bigger one just enough to pass Apple checks. Use the configuration to do so by setting ":thumbnail-resize-enable" true. :thumbnail-resize-width and :thumbnail-resize-height are then used to resize the image. Image proportion will be kept, so based on portrait/landscape orientation the tool (thanks to Scalr) the settings for width/height might be applied differently than your constraint.
+
 ### Certificate things
 
 If you happen to incur in a "unable to find valid certification path to requested target" exception this is because the Apple Publisher Server certificate is not known in your certificate chain. Use the following to add the certificate. host must be replaced with the apple publisher server endpoint, port is 443:
@@ -88,7 +95,7 @@ sudo keytool -importcert -file ~/example.crt -alias example -keystore $(/usr/lib
 
 ## TODO
 
-* [ ] bulk delete delete API
 * [ ] additional metadata for articles (related, featured sponsored)
+* [ ] bulk delete delete API
 * [ ] parallel bulk creation of articles
 * [ ] Java interface

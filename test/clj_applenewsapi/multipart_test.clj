@@ -12,3 +12,4 @@
    {:name "resize-me" :filename "resize-me.jpg" :content-type "image/jpeg" :url "file:./test/resize-me.jpg"}
    {:name "img2" :filename "img2.png" :content-type "image/png" :url "file:./test/test.png"}
    {:name "img3" :filename "img3.png" :content-type "image/png" :url "file:./test/test.png"}])
+

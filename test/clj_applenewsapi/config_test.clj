@@ -4,20 +4,30 @@
 
 (def rest-sample-config
   {:clj-applenewsapi {:host "https://testhost"
-               :channels {:ch1 {:channel-id "ch1-id"
-                                 :api-key-id "ch1-key"
-                                 :api-key-secret "ch1-secret"}
-                          :ch2 {:channel-id "ch2-id"
-                                 :api-key-id "ch2-key"
-                                 :api-key-secret "ch2-secret"}
-                          :ch3 {:channel-id "ch3-id"
-                                 :api-key-id "ch3-key"
-                                 :api-key-secret "ch3-secret"}}}})
+                      :thumbnail-resize-enable true
+                      :thumbnail-resize-height 420
+                      :thumbnail-resize-width 700
+                      :channels {:ch1 {:channel-id "ch1-id"
+                                       :api-key-id "ch1-key"
+                                       :api-key-secret "ch1-secret"}
+                                 :ch2 {:channel-id "ch2-id"
+                                       :api-key-id "ch2-key"
+                                       :api-key-secret "ch2-secret"}
+                                 :ch3 {:channel-id "ch3-id"
+                                       :api-key-id "ch3-key"
+                                       :api-key-secret "ch3-secret"}}}})
 
 (facts "rebindable configuration"
        (fact "it uses what is in the binding"
              (binding [*env* rest-sample-config]
                (host) => "https://testhost")))
+
+(facts "other configuration goodies"
+       (fact "thumbnail image resize"
+             (binding [*env* rest-sample-config]
+               (resize-thumbnail?) => true
+               (thumbnail-resize-height) => 420
+               (thumbnail-resize-width) => 700)))
 
 (facts "channel configuration"
        (fact "key and secret are dependent on the channel"

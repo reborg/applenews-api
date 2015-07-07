@@ -1,8 +1,7 @@
 (ns clj-applenewsapi.bytes
   (:require [clojure.java.io :refer [copy]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
-           [java.net URL URLConnection]
-           [java.util UUID]))
+           [java.net URL URLConnection]))
 
 (defn to-bytes [^String s]
   (.getBytes s "UTF-8"))
