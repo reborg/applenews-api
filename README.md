@@ -42,10 +42,12 @@ Configuring trough `~/.lein/profiles.clj` is the preferred method, so your crede
                            :host "https://apple-new-service-host"
     :channels {:ch1 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                      :api-key-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
-                     :api-key-secret "99999+p22222222222p34444444444444T2XnMyiNmI="}
+                     :api-key-secret "99999+p2222p3444444444T2XnMyiNmI="
+                     :sections {:default "88487-sdflkj-33433"
+                                :another "9879845-erfds-45"}
                :ch2 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                      :api-key-id "0936fc13-90eb-4391-8fbc-0cbc6104f3c"
-                     :api-key-secret "99999+p22222222222p34444444444444T2XnMyiNmI="}}}}}}
+                     :api-key-secret "99999+p222222234444T2XnMyiNmI="}}}}}}
 ```
 
 ### Configuring through a project local configuration file
@@ -73,7 +75,7 @@ If the configuration for your project is coming from other than the classpath, f
             [clj-applenewsapi.config :refer [*env*]]))
 
     ; retrieve all pools using a custom config
-    (binding [*env* {:applenewsapi {:channel {…}}}]
+    (binding [*env* {:applenewsapi {:channel {<your-counfig-here>}}}]
       (clj-applenewsapi/get-article "articleid"))
 ```
 
@@ -93,6 +95,8 @@ If you happen to incur in a "unable to find valid certification path to requeste
 openssl x509 -in <(openssl s_client -connect hostname:443 -prexit 2>/dev/null) -out ~/example.crt
 sudo keytool -importcert -file ~/example.crt -alias example -keystore $(/usr/libexec/java_home)/jre/lib/security/cacerts -storepass changeit
 ```
+
+If you don't have `/usr/libexec/java_home` on your system, just replace `$(/usr/libexec/java_home)` with the Java home on your system. How to find the java home on your system is an easy google-able solution.
 
 ## How to run the tests
 

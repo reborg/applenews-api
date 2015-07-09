@@ -14,7 +14,7 @@
    :conn-timeout 60000
    :headers {}})
 
-(defn post-opts [boundary payload]
+(defn- post-opts [boundary payload]
   (-> default-opts
       (assoc :body payload)
       (assoc :content-type (str "multipart/form-data; boundary=" boundary))))

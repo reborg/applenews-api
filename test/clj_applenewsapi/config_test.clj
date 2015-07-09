@@ -9,10 +9,14 @@
                       :thumbnail-resize-width 700
                       :channels {:ch1 {:channel-id "ch1-id"
                                        :api-key-id "ch1-key"
-                                       :api-key-secret "ch1-secret"}
+                                       :api-key-secret "ch1-secret"
+                                       :sections {:default "ch1-section-default"
+                                                  :another "ch1-section-another"}}
                                  :ch2 {:channel-id "ch2-id"
                                        :api-key-id "ch2-key"
-                                       :api-key-secret "ch2-secret"}
+                                       :api-key-secret "ch2-secret"
+                                       :sections {:default "ch2-section-default"
+                                                  :another "ch2-section-another"} }
                                  :ch3 {:channel-id "ch3-id"
                                        :api-key-id "ch3-key"
                                        :api-key-secret "ch3-secret"}}}})
@@ -33,5 +37,15 @@
        (fact "key and secret are dependent on the channel"
              (binding [*env* rest-sample-config]
                (api-key-id :ch1) => "ch1-key"
+               (api-key-id "ch1") => "ch1-key"
                (api-key-secret :ch2) => "ch2-secret"
                (channel-id :ch3) => "ch3-id")))
+
+(facts "sections"
+       (fact "section by name"
+             (binding [*env* rest-sample-config]
+               (section :ch1) => "ch1-section-default"
+               (section "ch1") => "ch1-section-default"
+               (section :ch1 :another) => "ch1-section-another"
+               (sections :ch2) => {:default "ch2-section-default"
+                                   :another "ch2-section-another"})))
