@@ -1,6 +1,6 @@
-(defproject clj-applenewsapi "0.0.14"
+(defproject clj-applenewsapi "0.0.15"
   :description "Clojure library to talk to Apple Publisher API services"
-  :dependencies [[org.clojure/clojure "1.7.0-RC2"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
                  [clj-http "1.1.2"]
                  [environ "1.0.0"]
                  [bytebuffer  "0.2.0"]
