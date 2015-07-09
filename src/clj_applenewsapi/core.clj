@@ -8,7 +8,7 @@
 (def default-opts
   {
    ; :debug true
-   :throw-exceptions false
+   :throw-exceptions (or (cfg/throw-exceptions) false)
    :accept :json
    :socket-timeout 60000
    :conn-timeout 60000

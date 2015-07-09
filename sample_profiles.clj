@@ -5,6 +5,7 @@
                       :thumbnail-resize-width 888
                       :parallel 100
                       :host "https://apple-new-service-host"
+                      :throw-exceptions false
                       :channels {:ch1 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                                        :api-key-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                                        :api-key-secret "99999+p2222p3444444444T2XnMyiNmI="

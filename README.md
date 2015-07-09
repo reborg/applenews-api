@@ -40,6 +40,7 @@ Configuring trough `~/.lein/profiles.clj` is the preferred method, so your crede
                            :thumbnail-resize-width 888
                            :parallel 100
                            :host "https://apple-new-service-host"
+                           :throw-exceptions false
     :channels {:ch1 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                      :api-key-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                      :api-key-secret "99999+p2222p3444444444T2XnMyiNmI="
@@ -86,6 +87,10 @@ Apple specification restricts the minimum size for the thumbnail image, the imag
 ### Parallel creation/deletion
 
 clj-applenewsapi supports parallel creation and deletion of articles. The :parallel parameter in configuration determines the amount of parallel threads that will be used for processing. The approach to parallelism is a simple parallel map, so the next n-amount of threads will fire when the last m-chunk has been completely processed. Expect a spike at the beginning of each chunk that fades off toward the end. For most of the practical purposes, this is fair enough.
+
+### Exceptions
+
+You can tell clj-applenewsapi if you want exceptions to be thrown in case of non 20x answers from the Apple Publisher service. This is a feature of clj-http library that is used underneath. When :throw-exceptions is false in config, any status code >= 30x will not generate exception but just returned in the response map.
 
 ### Certificate things
 

@@ -10,6 +10,7 @@
 (defn thumbnail-resize-height [] (:thumbnail-resize-height (env)))
 (defn thumbnail-resize-width [] (:thumbnail-resize-width (env)))
 (defn parallel [] (:parallel (env)))
+(defn throw-exceptions [] (:throw-exceptions (env)))
 
 (defn- channel-config [channel-name k]
  (get-in (env) [:channels (keyword channel-name) k]))
