@@ -79,11 +79,10 @@
      (client/post url opts))))
 
 (defn create-articles
-  "250 is the chunk size (that will spawn 250 threads) in case
-  of big lists"
+  "cfg/parallel is the chunk size (that will spawn n threads)"
   ([bundles] (create-articles bundles :sandbox))
   ([bundles channel-name]
-   (doall (parallel/ppmap #(create-article % channel-name) bundles 250))))
+   (doall (parallel/ppmap #(create-article % channel-name) bundles (cfg/parallel)))))
 
 ; test with
 ; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))

@@ -38,6 +38,7 @@ Configuring trough `~/.lein/profiles.clj` is the preferred method, so your crede
   :env {:clj-applenewsapi {:thumbnail-resize-enable true
                            :thumbnail-resize-height 666
                            :thumbnail-resize-width 888
+                           :parallel 100
                            :host "https://apple-new-service-host"
     :channels {:ch1 {:channel-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
                      :api-key-id "aaaaaaaa-aaaa-bbbbb-cccc-dddddddddddd"
@@ -79,6 +80,10 @@ If the configuration for your project is coming from other than the classpath, f
 ### Image automatic resizing
 
 Apple specification restricts the minimum size for the thumbnail image, the image that is used on the section along with a preview of the article. The image must be at minimum 600x400 with no maximum restrictions (other than 20MB total payload size to create an article). You can let applenewsapi to resize it for you, interpolating a smaller image to a slightly bigger one just enough to pass Apple checks. Use the configuration to do so by setting ":thumbnail-resize-enable" true. :thumbnail-resize-width and :thumbnail-resize-height are then used to resize the image. Image proportion will be kept, so based on portrait/landscape orientation the tool (thanks to Scalr) the settings for width/height might be applied differently than your constraint.
+
+### Parallel creation/deletion
+
+clj-applenewsapi supports parallel creation and deletion of articles. The :parallel parameter in configuration determines the amount of parallel threads that will be used for processing. The approach to parallelism is a simple parallel map, so the next n-amount of threads will fire when the last m-chunk has been completely processed. Expect a spike at the beginning of each chunk that fades off toward the end. For most of the practical purposes, this is fair enough.
 
 ### Certificate things
 

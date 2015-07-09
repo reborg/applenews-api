@@ -19,3 +19,5 @@
 (defn resize-thumbnail? [] (:thumbnail-resize-enable (env)))
 (defn thumbnail-resize-height [] (:thumbnail-resize-height (env)))
 (defn thumbnail-resize-width [] (:thumbnail-resize-width (env)))
+
+(defn parallel [] (:parallel (env)))
