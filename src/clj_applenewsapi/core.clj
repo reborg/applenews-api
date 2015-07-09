@@ -35,12 +35,21 @@
      (client/get url (authorize default-opts concatenated ts channel-name)))))
 
 (defn delete-article
+  "The id here is the id the publisher service associated to the article
+  when it was created."
   ([id] (delete-article id :sandbox))
   ([id channel-name]
    (let [url (str (cfg/host) "/articles/" id)
          ts (now)
          concatenated (canonical "DELETE" url ts)]
      (client/delete url (authorize default-opts concatenated ts channel-name)))))
+
+(defn delete-articles
+  "The id here is the id the publisher service associated to the article
+  when it was created. cfg/parallel is the chunk size (that will spawn n threads)"
+  ([ids] (delete-articles ids :sandbox))
+  ([ids channel-name]
+   (doall (parallel/ppmap #(delete-article % channel-name) ids (cfg/parallel)))))
 
 (defn get-channel
   ([] (get-channel :sandbox))
