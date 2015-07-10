@@ -1,9 +1,8 @@
 (ns clj-applenewsapi.core-test
   (:require [midje.sweet :refer :all]
             [clj-applenewsapi.core :refer :all]
-            [clojure.java.io :as io]
-            [clj-applenewsapi.config :refer [*env*]]
-            [clojure.edn :as edn])
+            [clj-applenewsapi.bundle :refer [load-edn]]
+            [clj-applenewsapi.config :refer [*env*]])
   (:import [org.imgscalr Scalr]))
 
 (def rest-sample-config
@@ -15,21 +14,18 @@
                                        :api-key-id "ch1-key"
                                        :api-key-secret "ch1-secret"}}}})
 
-(defn stub [s]
-  (edn/read-string (slurp (io/resource (str (name s) ".edn")))))
-
 (facts "retrieving an article"
        (fact "it should fetch the article by ID"
              (let [id "a3caeb08-b9db-4002-b379-cde305d74be7"]
                (binding [*env* rest-sample-config]
                  (get-in (get-article id :ch1) [:data :id])) => id
-               (provided (clj-http.client/get anything anything) => (stub :article))))
+               (provided (clj-http.client/get anything anything) => (load-edn :article))))
        (fact "it defaults to sandbox when no channel is given"
              (let [id "a3caeb08-b9db-4002-b379-cde305d74be7"]
                (binding [*env* rest-sample-config]
                  (get-in (get-article id) [:data :id])) => id
                (provided
                  (authorize anything anything anything :sandbox) => "whateva"
-                 (clj-http.client/get anything anything) => (stub :article)))))
+                 (clj-http.client/get anything anything) => (load-edn :article)))))
 
 ; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn"))) (c/create-article bundle))
