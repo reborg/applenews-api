@@ -4,6 +4,7 @@
                  [clj-http "1.1.2"]
                  [environ "1.0.0"]
                  [bytebuffer "0.2.0"]
+                 [cheshire "5.5.0"]
                  [org.imgscalr/imgscalr-lib "4.2"]
                  [clj-time "0.9.0"]]
   :plugins [[lein-environ "1.0.0"]]

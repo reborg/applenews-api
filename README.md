@@ -110,6 +110,8 @@ If you don't have `/usr/libexec/java_home` on your system, just replace `$(/usr/
 ## TODO
 
 * [ ] additional metadata for articles (related, featured sponsored)
-* [ ] bulk delete delete API
-* [ ] parallel bulk creation of articles
-* [ ] Java interface
+* [ ] Add maven deploy integration for Java interface (rename project?)
+* [ ] global DEBUG var for all debugging stuff
+* [ ] kill remaining reflection warnings
+* [x] bulk delete delete API
+* [x] parallel bulk creation of articles

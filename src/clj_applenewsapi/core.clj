@@ -3,6 +3,7 @@
             [clj-applenewsapi.crypto :refer [signature now canonical]]
             [clj-applenewsapi.multipart :as multipart]
             [clj-applenewsapi.parallel :as parallel]
+            [clj-applenewsapi.bundle :refer [update-revision]]
             [clj-applenewsapi.config :as cfg]))
 
 (def default-opts
@@ -92,6 +93,18 @@
   ([bundles] (create-articles bundles :sandbox))
   ([bundles channel-name]
    (doall (parallel/ppmap #(create-article % channel-name) bundles (cfg/parallel)))))
+
+(defn update-article
+  ([bundle article-id revision] (update-article bundle article-id revision :sandbox))
+  ([bundle article-id revision channel-name]
+   (let [url (str (cfg/host) "/articles/" article-id)
+         ts (now)
+         boundary (multipart/random)
+         payload (multipart/payload boundary (update-revision bundle revision))
+         content-type (str "multipart/form-data; boundary=" boundary)
+         concatenated (canonical "POST" url ts content-type payload)
+         opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
+     (client/post url opts))))
 
 ; test with
 ; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))

@@ -3,6 +3,7 @@
             [clj-http.multipart :as mp]
             [clojure.java.io :refer [copy]]
             [clj-applenewsapi.image :as image]
+            [clj-applenewsapi.bundle :refer [metadata article-json thumbnail]]
             [clj-applenewsapi.bytes :refer [to-bytes url-to-bytearray]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
            [java.net URL URLConnection]
@@ -43,13 +44,10 @@
              (url-to-bytearray part-url)) out))))
 
 (defn payload [boundary bundle]
-  (let [article-json (:content (first (filter #(= "article.json" (:filename %)) bundle)))
-        thumbnail-url (last (re-find #"\"thumbnailURL\"\:\"bundle\://(.*)\",\"canonicalURL" article-json))
-        metadata (:content (first (filter #(= "metadata" (:name %)) bundle)))
-        part-urls (remove nil? (mapv :url bundle))]
+  (let [part-urls (remove nil? (mapv :url bundle))]
     (with-open [out (ByteArrayOutputStream.)]
-      (part boundary "application/json" "metadata" (to-bytes metadata) out)
-      (part boundary "application/json" "article.json" (to-bytes article-json) out)
-      (embed-parts boundary part-urls out thumbnail-url)
+      (part boundary "application/json" "metadata" (to-bytes (metadata bundle)) out)
+      (part boundary "application/json" "article.json" (to-bytes (article-json bundle)) out)
+      (embed-parts boundary part-urls out (thumbnail bundle))
       (copy (to-bytes (format "--%s--" boundary)) out)
       (.toByteArray out))))
