@@ -20,8 +20,11 @@
 (defn thumbnail [bundle]
   (last (re-find #"\"thumbnailURL\"\:\"bundle\://(.*)\",\"canonicalURL" (article-json bundle))))
 
+(defn revision-from-json [json]
+  (last (re-find #"\"revision\":\"(.*)\"" json)))
+
 (defn revision [bundle]
-  (last (re-find #"\"revision\":\"(.*)\"" (metadata bundle))))
+  (revision-from-json (metadata bundle)))
 
 (defn update-revision [bundle revision]
   (let [metadata (json/decode (metadata bundle))]
