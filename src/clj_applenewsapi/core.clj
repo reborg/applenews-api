@@ -1,18 +1,23 @@
 (ns clj-applenewsapi.core
   (:require [clj-http.client :as client]
+            [clj-applenewsapi.response :refer [enrich]]
             [clj-applenewsapi.crypto :refer [signature now canonical]]
             [clj-applenewsapi.multipart :as multipart]
             [clj-applenewsapi.parallel :as parallel]
             [clj-applenewsapi.bundle :refer [update-revision]]
             [clj-applenewsapi.config :as cfg]))
 
+(defn- request [method url opts & [defaults]]
+  (enrich
+    ((ns-resolve 'clj-http.client method) url opts) defaults))
+
 (def default-opts
   {
    ; :debug true
    :throw-exceptions (or (cfg/throw-exceptions) false)
    :accept :json
-   :socket-timeout 60000
-   :conn-timeout 60000
+   :socket-timeout 120000
+   :conn-timeout 90000
    :headers {}})
 
 (defn- post-opts [boundary payload]
@@ -33,7 +38,9 @@
    (let [url (str (cfg/host) "/articles/" id)
          ts (now)
          concatenated (canonical "GET" url ts)]
-     (client/get url (authorize default-opts concatenated ts channel-name)))))
+     (request 'get url
+              (authorize default-opts concatenated ts channel-name)
+              {:id id :channel-name channel-name}))))
 
 (defn delete-article
   "The id here is the id the publisher service associated to the article
@@ -43,7 +50,9 @@
    (let [url (str (cfg/host) "/articles/" id)
          ts (now)
          concatenated (canonical "DELETE" url ts)]
-     (client/delete url (authorize default-opts concatenated ts channel-name)))))
+     (request 'delete url
+              (authorize default-opts concatenated ts channel-name)
+              {:id id :channel-name channel-name}))))
 
 (defn delete-articles
   "The id here is the id the publisher service associated to the article
@@ -58,7 +67,9 @@
    (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name))
          ts (now)
          concatenated (canonical "GET" url ts)]
-     (client/get url (authorize default-opts concatenated ts channel-name)))))
+     (request 'get url
+              (authorize default-opts concatenated ts channel-name)
+              {:channel-name channel-name}))))
 
 (defn get-section
   ([id] (get-section id :sandbox))
@@ -66,7 +77,9 @@
    (let [url (str (cfg/host) "/sections/" id)
          ts (now)
          concatenated (canonical "GET" url ts)]
-     (client/get url (authorize default-opts concatenated ts channel-name)))))
+     (request 'get url
+              (authorize default-opts concatenated ts channel-name)
+              {:section-id id :channel-name channel-name}))))
 
 (defn get-sections
   ([] (get-sections :sandbox))
@@ -74,7 +87,9 @@
    (let [url (str (cfg/host) "/channels/" (cfg/channel-id channel-name) "/sections/")
          ts (now)
          concatenated (canonical "GET" url ts)]
-     (client/get url (authorize default-opts concatenated ts channel-name)))))
+     (request 'get url
+              (authorize default-opts concatenated ts channel-name)
+              {:channel-name channel-name}))))
 
 (defn create-article
   ([bundle] (create-article bundle :sandbox))
@@ -86,7 +101,7 @@
          content-type (str "multipart/form-data; boundary=" boundary)
          concatenated (canonical "POST" url ts content-type payload)
          opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
-     (client/post url opts))))
+     (request 'post url opts {:channel-name channel-name}))))
 
 (defn create-articles
   "cfg/parallel is the chunk size (that will spawn n threads)"
@@ -104,7 +119,8 @@
          content-type (str "multipart/form-data; boundary=" boundary)
          concatenated (canonical "POST" url ts content-type payload)
          opts (authorize (post-opts boundary payload) concatenated ts channel-name)]
-     (client/post url opts))))
+     (request 'post url opts
+              {:id article-id :channel-name channel-name}))))
 
 ; test with
 ; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))

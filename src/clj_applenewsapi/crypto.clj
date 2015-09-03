@@ -11,7 +11,7 @@
 (set! *warn-on-reflection* true)
 
 (defn now []
-  (tf/unparse (tf/formatter  "YYYY-MM-dd'T'HH:mm:ss'Z'") (t/now)))
+  (tf/unparse (tf/formatter "YYYY-MM-dd'T'HH:mm:ss'Z'") (t/now)))
 
 (defn canonical
   ([method url t]

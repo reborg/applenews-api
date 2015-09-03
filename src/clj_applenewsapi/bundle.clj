@@ -1,7 +1,7 @@
 (ns clj-applenewsapi.bundle
   (:require [clojure.edn :as edn]
             [cheshire.core :as json]
-            [clojure.string :refer [replace-first]]
+            [clojure.string :refer [replace-first split]]
             [clojure.java.io :as io]))
 
 (defn load-edn [s]
@@ -18,10 +18,13 @@
   (:content (first (filter #(= "article.json" (:filename %)) bundle))))
 
 (defn thumbnail [bundle]
+  ; (let [json (json/decode (article-json bundle))]
+  ;   (last (split (json "thumbnailURL") #"/"))))
   (last (re-find #"\"thumbnailURL\"\:\"bundle\://(.*)\",\"canonicalURL" (article-json bundle))))
 
-(defn revision-from-json [json]
-  (last (re-find #"\"revision\":\"(.*)\"" json)))
+(defn revision-from-json [raw-json]
+  (let [json (json/decode raw-json)]
+    ((json "data") "revision")))
 
 (defn revision [bundle]
   (revision-from-json (metadata bundle)))

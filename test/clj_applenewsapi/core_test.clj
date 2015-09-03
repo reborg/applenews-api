@@ -16,14 +16,14 @@
 
 (facts "retrieving an article"
        (fact "it should fetch the article by ID"
-             (let [id "a3caeb08-b9db-4002-b379-cde305d74be7"]
+             (let [id "69148703-cc53-4c5a-b87c-d93a48dc82ee"]
                (binding [*env* rest-sample-config]
-                 (get-in (get-article id :ch1) [:data :id])) => id
+                 (get-in (get-article id :ch1) [:id])) => id
                (provided (clj-http.client/get anything anything) => (load-edn :article))))
        (fact "it defaults to sandbox when no channel is given"
-             (let [id "a3caeb08-b9db-4002-b379-cde305d74be7"]
+             (let [id "69148703-cc53-4c5a-b87c-d93a48dc82ee"]
                (binding [*env* rest-sample-config]
-                 (get-in (get-article id) [:data :id])) => id
+                 (get-in (get-article id) [:id])) => id
                (provided
                  (authorize anything anything anything :sandbox) => "whateva"
                  (clj-http.client/get anything anything) => (load-edn :article)))))
