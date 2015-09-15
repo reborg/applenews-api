@@ -34,11 +34,13 @@
   "Takes the response and an optional map of defaults and enrich the
   response with other interesting bits coming from the json body. Keys
   from the json body are taking precedence over the defaults when found."
-  (let [json (json/decode (:body r) false)
-        apple-keys (clojure-keys (select-keys (json "data") interesting-bits))]
-    (remove-nils (-> (merge r defaults)
-                     (merge r apple-keys)
-                     (assoc :http-response-date ((:headers r) "Date"))
-                     (assoc :channel-id (end-of-path (get-in json ["data" "links" "channel"])))
-                     (assoc :section-ids (map end-of-path (get-in json ["data" "links" "sections"])))
-                     (assoc :article-id (get-in json ["data" "document" "identifier"]))))))
+  (let [r (-> (merge r defaults)
+              (assoc :http-response-date ((:headers r) "Date")))]
+    (if (nil? (:body r))
+      r
+      (let [json (json/decode (:body r) false)
+            apple-keys (clojure-keys (select-keys (json "data") interesting-bits))]
+        (remove-nils (-> (merge r apple-keys)
+                         (assoc :channel-id (end-of-path (get-in json ["data" "links" "channel"])))
+                         (assoc :section-ids (map end-of-path (get-in json ["data" "links" "sections"])))
+                         (assoc :article-id (get-in json ["data" "document" "identifier"]))))))))
