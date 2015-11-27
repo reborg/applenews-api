@@ -10,3 +10,7 @@ pom.xml.asc
 .hgignore
 .hg/
 docs
+.DS_Store
+.idea
+*.iml
+samples
