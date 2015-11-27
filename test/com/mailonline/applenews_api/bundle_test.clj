@@ -1,6 +1,6 @@
-(ns clj-applenewsapi.bundle-test
+(ns com.mailonline.applenews-api.bundle-test
   (:require [midje.sweet :refer :all]
-            [clj-applenewsapi.bundle :refer :all]))
+            [com.mailonline.applenews-api.bundle :refer :all]))
 
 (facts "updating revisions"
        (fact "it swap current with given if already there"

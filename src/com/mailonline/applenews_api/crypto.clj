@@ -1,6 +1,6 @@
-(ns clj-applenewsapi.crypto
+(ns com.mailonline.applenews-api.crypto
   (:require [clj-time.format :as tf]
-            [clj-applenewsapi.bytes :refer [to-bytes]]
+            [com.mailonline.applenews-api.bytes :refer [to-bytes]]
             [clojure.java.io :refer [copy]]
             [clj-time.core :as t])
   (:import [org.apache.commons.codec.binary Base64]

@@ -1,5 +1,5 @@
-(ns clj-applenewsapi.response
-  (:require [clj-applenewsapi.bundle :refer [revision-from-json]]
+(ns com.mailonline.applenews-api.response
+  (:require [com.mailonline.applenews-api.bundle :refer [revision-from-json]]
             [clojure.string :refer [split join lower-case]]
             [clojure.walk :refer [postwalk]]
             [cheshire.core :as json]))

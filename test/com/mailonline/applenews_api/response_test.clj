@@ -1,7 +1,7 @@
-(ns clj-applenewsapi.response-test
+(ns com.mailonline.applenews-api.response-test
   (:require [midje.sweet :refer :all]
-            [clj-applenewsapi.bundle :refer [load-edn]]
-            [clj-applenewsapi.response :refer :all]))
+            [com.mailonline.applenews-api.bundle :refer [load-edn]]
+            [com.mailonline.applenews-api.response :refer :all]))
 
 (facts "enriching the api response"
        (fact "get article"

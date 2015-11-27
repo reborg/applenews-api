@@ -1,6 +1,6 @@
-(ns clj-applenewsapi.config-test
+(ns com.mailonline.applenews-api.config-test
   (:require [midje.sweet :refer :all]
-            [clj-applenewsapi.config :refer :all]))
+            [com.mailonline.applenews-api.config :refer :all]))
 
 (def rest-sample-config
   {:clj-applenewsapi {:host "https://testhost"

@@ -1,7 +1,7 @@
-(ns clj-applenewsapi.crypto-test
+(ns com.mailonline.applenews-api.crypto-test
   (:require [midje.sweet :refer :all]
-            [clj-applenewsapi.config :refer [*env*]]
-            [clj-applenewsapi.crypto :refer :all]))
+            [com.mailonline.applenews-api.config :refer [*env*]]
+            [com.mailonline.applenews-api.crypto :refer :all]))
 
 (def rest-sample-config
   {:clj-applenewsapi {:host "https://testhost"

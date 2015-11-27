@@ -1,7 +1,7 @@
-(ns clj-applenewsapi.parallel)
+(ns com.mailonline.applenews-api.parallel)
 
 (defn ppmap
-  "Like pmap with a configurable chunk size."
+  "Like pmap in std lib with a configurable chunk size."
   [f coll n]
   (let [rets (map #(future (f %)) coll)
         step (fn step [[x & xs :as vs] fs]

@@ -1,8 +1,8 @@
-(ns clj-applenewsapi.image-test
+(ns com.mailonline.applenews-api.image-test
   (:require [midje.sweet :refer :all]
-            [clj-applenewsapi.config :refer [*env*]]
             [clojure.java.io :refer [writer]]
-            [clj-applenewsapi.image :refer :all])
+            [com.mailonline.applenews-api.config :refer [*env*]]
+            [com.mailonline.applenews-api.image :refer :all])
   (:import [java.io File ByteArrayOutputStream ByteArrayInputStream FileOutputStream]
            [javax.imageio ImageIO]
            [org.imgscalr Scalr]

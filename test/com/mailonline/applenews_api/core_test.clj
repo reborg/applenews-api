@@ -1,8 +1,8 @@
-(ns clj-applenewsapi.core-test
+(ns com.mailonline.applenews-api.core-test
   (:require [midje.sweet :refer :all]
-            [clj-applenewsapi.core :refer :all]
-            [clj-applenewsapi.bundle :refer [load-edn]]
-            [clj-applenewsapi.config :refer [*env*]])
+            [com.mailonline.applenews-api.core :refer :all]
+            [com.mailonline.applenews-api.bundle :refer [load-edn]]
+            [com.mailonline.applenews-api.config :refer [*env*]])
   (:import [org.imgscalr Scalr]))
 
 (def rest-sample-config

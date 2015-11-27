@@ -1,5 +1,5 @@
-(defproject clj-applenewsapi "0.0.17"
-  :description "Clojure library to talk to Apple Publisher API services"
+(defproject com.mailonline/applenews-api "1.0.0"
+  :description "Java/Clojure client for the Apple News REST api (https://developer.apple.com/go/?id=news-api-ref)"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [clj-http "1.1.2"]
                  [environ "1.0.0"]
@@ -9,10 +9,8 @@
                  [clj-time "0.9.0"]]
   :plugins [[lein-environ "1.0.0"]]
   :java-source-paths ["java"]
-  :repositories [["buzz" "http://maven.thebuzzmedia.com"]]
   :repl-options {:init (do (require 'midje.repl) (midje.repl/autotest))
                  :timeout 25000000000}
-  ; :aot :all
   :profiles {:dev {:dependencies [[midje "1.7.0"]]}}
   :jvm-opts ~(vec (map (fn [[p v]] (str "-D" (name p) "=" v))
                        {:java.awt.headless "true"}))

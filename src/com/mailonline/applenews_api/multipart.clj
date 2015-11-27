@@ -1,10 +1,10 @@
-(ns clj-applenewsapi.multipart
+(ns com.mailonline.applenews-api.multipart
   (:require [clojure.java.io :as io]
             [clj-http.multipart :as mp]
             [clojure.java.io :refer [copy]]
-            [clj-applenewsapi.image :as image]
-            [clj-applenewsapi.bundle :refer [metadata article-json thumbnail]]
-            [clj-applenewsapi.bytes :refer [to-bytes url-to-bytearray]])
+            [com.mailonline.applenews-api.image :as image]
+            [com.mailonline.applenews-api.bundle :refer [metadata article-json thumbnail]]
+            [com.mailonline.applenews-api.bytes :refer [to-bytes url-to-bytearray]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
            [java.net URL URLConnection]
            [java.util UUID]))

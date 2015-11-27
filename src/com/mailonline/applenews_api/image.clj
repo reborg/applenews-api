@@ -1,7 +1,7 @@
-(ns clj-applenewsapi.image
+(ns com.mailonline.applenews-api.image
   (:require [clojure.string :refer [split]]
-            [clj-applenewsapi.bytes :as bbytes]
-            [clj-applenewsapi.config :refer [resize-thumbnail? thumbnail-resize-height thumbnail-resize-width]]
+            [com.mailonline.applenews-api.bytes :as bbytes]
+            [com.mailonline.applenews-api.config :refer [resize-thumbnail? thumbnail-resize-height thumbnail-resize-width]]
             [clojure.java.io :refer [copy]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileOutputStream]
            [javax.imageio ImageIO]

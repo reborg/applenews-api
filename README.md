@@ -1,32 +1,45 @@
-# clj-applenewsapi
+# applenews-api
 
-clj-applenewsapi is a Clojure client for the [Apple Publisher REST api](https://developer.apple.com/news-publisher/). Apart from offering basic wrapping around REST endpoints, it adds bulk creation/deletion in parallel and automatic thumbnail image resizing.
+The applenews-api is a Java/Clojure client library for the [Apple News REST api](https://developer.apple.com/go/?id=news-api-ref). The REST Api along with the [Apple News Format](https://developer.apple.com/library/ios/documentation/General/Conceptual/Apple_News_Format_Ref/index.html) gives news publishers a great deal of flexibility in designing their content for the Apple News platform. This library is designed to help news publishers pushing their content to Apple News, offering Java or Clojure wrapping around REST endpoints, parallel creation/deletion, automatic image resizing and much more.
 
-## How to use
+## Project Setup
 
-Add:
+From Java, put the following in your Maven pom.xml:
+
+```xml
+<dependency>
+  <groupId>com.mailonline</groupId>
+  <artifactId>applenews-api</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+From Clojure, put the following dependency in your Leiningen project.clj:
 
 ```clojure
-:dependencies [[clj-applenewsapi "0.1.0"]]
+:dependencies [[com.mailonline/applenews-api "0.1.0"]]
 :plugins [[lein-environ "1.0.0"]]
 ```
 
-to your project.clj dependencies section and. Here's an example snippet:
+## How to use
+
+From Java:
+
+From Clojure:
 
 ```clojure
-    (ns your-prj
-      (:require [clj-applenewsapi.core :as clj-applenewsapi]))
+(ns your-prj
+  (:require [com.mailonline.applenews-api :as api]))
 
-    ; retrieve an article by ID
-    (clj-applenewsapi/get-article "a3caeb08-b9db-4002-b379-cde305d74be7")
+; retrieve an article by ID
+(api/get-article "a3caeb08-b9db-4002-b379-cde305d74be7")
 
-    ; retrieve data for a channel
-    (clj-applenewsapi/get-channel :mytestchannel)
+; retrieve data for a channel
+(api/get-channel :mytestchannel)
 ```
 
-## Configuration
+## Clojure Configuration
 
-clj-applenewsapi integrates with the leiningen environment map through [environ](https://github.com/weavejester/environ) for all general needs. It also  offers a programmatic way to override properties with a re-bindable dynamic *env* var.
+applenews-api integrates with the leiningen environment map through [environ](https://github.com/weavejester/environ) for all general needs. It also  offers a programmatic way to override properties with a re-bindable dynamic *env* var.
 
 ### Configuring through `~/.lein/profiles.clj`
 
@@ -35,7 +48,7 @@ Configuring trough `~/.lein/profiles.clj` is the preferred method, so your crede
 ```clojure
 {:user {
   :plugins []
-  :env {:clj-applenewsapi {:thumbnail-resize-enable true
+  :env {:applenews-api {:thumbnail-resize-enable true
                            :thumbnail-resize-height 666
                            :thumbnail-resize-width 888
                            :parallel 100
@@ -53,12 +66,12 @@ Configuring trough `~/.lein/profiles.clj` is the preferred method, so your crede
 
 ### Configuring through a project local configuration file
 
-A file called sample_profiles.clj is provided to you in the main clj-applenewsapi project directory:
+A file called sample_profiles.clj is provided to you in the main applenews-api project directory:
 
 * Copy sample_profiles.clj into your project root
 * Rename sample_profiles.clj to profiles.clj
 * Change the relevant values inside it to point to your Apple News key and secret
-* Add the following lines inside your project.clj so clj-applenewsapi can pick up environment variables when running lein repl:
+* Add the following lines inside your project.clj so applenews-api can pick up environment variables when running lein repl:
 
 ```clojure
 :aliases {"repl" ["with-profile" "+dev-cfg" "repl"]}
@@ -68,29 +81,29 @@ A file called sample_profiles.clj is provided to you in the main clj-applenewsap
 
 ### programmatic
 
-If the configuration for your project is coming from other than the classpath, files or system environment (for example database or zookeeper) you can fetch the variables and pass them down to clj-applenewsapi as follow:
+If the configuration for your project is coming from other than the classpath, files or system environment (for example database or zookeeper) you can fetch the variables and pass them down to applenews-api as follow:
 
 ```clojure
 (ns your-prj
-  (:require [clj-applenewsapi.core :as clj-applenewsapi]
-            [clj-applenewsapi.config :refer [*env*]]))
+  (:require [com.mailonline.applenews-api.core :as applenews-api]
+            [com.mailonline.applenews-api.config :refer [*env*]]))
 
     ; retrieve all pools using a custom config
     (binding [*env* {:applenewsapi {:channel {<your-counfig-here>}}}]
-      (clj-applenewsapi/get-article "articleid"))
+      (applenews-api/get-article "articleid"))
 ```
 
-### Image automatic resizing
+### Automatic Image Resizing
 
-Apple specification restricts the minimum size for the thumbnail image, the image that is used on the section along with a preview of the article. The image must be at minimum 600x400 with no maximum restrictions (other than 20MB total payload size to create an article). You can let applenewsapi to resize it for you, interpolating a smaller image to a slightly bigger one just enough to pass Apple checks. Use the configuration to do so by setting ":thumbnail-resize-enable" true. :thumbnail-resize-width and :thumbnail-resize-height are then used to resize the image. Image proportion will be kept, so based on portrait/landscape orientation the tool (thanks to Scalr) the settings for width/height might be applied differently than your constraint.
+Apple specification restricts the minimum size for the thumbnail image, the image that is used on the section along with a preview of the article. The image must be at minimum 600x400 with no maximum restrictions (other than 20MB total payload size to create an article). You can let applenews-api to resize it for you, interpolating a smaller image to a slightly bigger one just enough to pass Apple checks. Use the configuration to do so by setting ":thumbnail-resize-enable" true. :thumbnail-resize-width and :thumbnail-resize-height are then used to resize the image. Image proportion will be kept, so based on portrait/landscape orientation the tool (thanks to Scalr) the settings for width/height might be applied differently than your constraint.
 
-### Parallel creation/deletion
+### Parallel Create/Delete
 
-clj-applenewsapi supports parallel creation and deletion of articles. The :parallel parameter in configuration determines the amount of parallel threads that will be used for processing. The approach to parallelism is a simple parallel map, so the next n-amount of threads will fire when the last m-chunk has been completely processed. Expect a spike at the beginning of each chunk that fades off toward the end. For most of the practical purposes, this is fair enough.
+applenews-api supports parallel creation and deletion of articles. The :parallel parameter in configuration determines the amount of parallel threads that will be used for processing. The approach to parallelism is a simple parallel map, so the next n-amount of threads will fire when the last m-chunk has been completely processed. Expect a spike at the beginning of each chunk that fades off toward the end. For most of the practical purposes, this is fair enough.
 
 ### Exceptions
 
-You can tell clj-applenewsapi if you want exceptions to be thrown in case of non 20x answers from the Apple Publisher service. This is a feature of clj-http library that is used underneath. When :throw-exceptions is false in config, any status code >= 30x will not generate exception but just returned in the response map.
+You can tell applenews-api if you want exceptions to be thrown in case of non 20x answers from the Apple Publisher service. This is a feature of clj-http library that is used underneath. When :throw-exceptions is false in config, any status code >= 30x will not generate exception but just returned in the response map.
 
 ### Certificate things
 
@@ -113,5 +126,3 @@ If you don't have `/usr/libexec/java_home` on your system, just replace `$(/usr/
 * [ ] Add maven deploy integration for Java interface (rename project?)
 * [ ] global DEBUG var for all debugging stuff
 * [ ] kill remaining reflection warnings
-* [x] bulk delete delete API
-* [x] parallel bulk creation of articles

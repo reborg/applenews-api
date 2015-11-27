@@ -1,11 +1,11 @@
-(ns clj-applenewsapi.core
+(ns com.mailonline.applenews-api.core
   (:require [clj-http.client :as client]
-            [clj-applenewsapi.response :refer [enrich]]
-            [clj-applenewsapi.crypto :refer [signature now canonical]]
-            [clj-applenewsapi.multipart :as multipart]
-            [clj-applenewsapi.parallel :as parallel]
-            [clj-applenewsapi.bundle :refer [update-revision]]
-            [clj-applenewsapi.config :as cfg]))
+            [com.mailonline.applenews-api.response :refer [enrich]]
+            [com.mailonline.applenews-api.crypto :refer [signature now canonical]]
+            [com.mailonline.applenews-api.multipart :as multipart]
+            [com.mailonline.applenews-api.parallel :as parallel]
+            [com.mailonline.applenews-api.bundle :refer [update-revision]]
+            [com.mailonline.applenews-api.config :as cfg]))
 
 (defn- request [method url opts & [defaults]]
   (enrich

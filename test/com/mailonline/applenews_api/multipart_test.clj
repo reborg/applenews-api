@@ -1,8 +1,8 @@
-(ns clj-applenewsapi.multipart-test
+(ns com.mailonline.applenews-api.multipart-test
   (:require [midje.sweet :refer :all]
-            [clj-applenewsapi.bytes :as b]
-            [clj-applenewsapi.bundle :refer [load-edn]]
-            [clj-applenewsapi.multipart :refer :all]))
+            [com.mailonline.applenews-api.bytes :as b]
+            [com.mailonline.applenews-api.bundle :refer [load-edn]]
+            [com.mailonline.applenews-api.multipart :refer :all]))
 
 (facts "creating the payload"
        (fact "should split by the given boundary"
