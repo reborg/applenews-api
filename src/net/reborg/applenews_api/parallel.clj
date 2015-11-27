@@ -1,4 +1,4 @@
-(ns com.mailonline.applenews-api.parallel)
+(ns net.reborg.applenews-api.parallel)
 
 (defn ppmap
   "Like pmap in std lib with a configurable chunk size."

@@ -1,8 +1,8 @@
-(ns com.mailonline.applenews-api.core-test
+(ns net.reborg.applenews-api.core-test
   (:require [midje.sweet :refer :all]
-            [com.mailonline.applenews-api.core :refer :all]
-            [com.mailonline.applenews-api.bundle :refer [load-edn]]
-            [com.mailonline.applenews-api.config :refer [*env*]])
+            [net.reborg.applenews-api.core :refer :all]
+            [net.reborg.applenews-api.bundle :refer [load-edn]]
+            [net.reborg.applenews-api.config :refer [*env*]])
   (:import [org.imgscalr Scalr]))
 
 (def rest-sample-config
@@ -28,4 +28,4 @@
                  (authorize anything anything anything :sandbox) => "whateva"
                  (clj-http.client/get anything anything) => (load-edn :article)))))
 
-; (require '[com.mailonline.applenews-api.core :as c]) (def bundle (read-string (slurp "test/bundle.edn"))) (c/create-article bundle))
+; (require '[net.reborg.applenews-api.core :as c]) (def bundle (read-string (slurp "test/bundle.edn"))) (c/create-article bundle))

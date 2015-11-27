@@ -1,4 +1,4 @@
-(ns com.mailonline.applenews-api.config
+(ns net.reborg.applenews-api.config
   (:require [environ.core :as environ]))
 
 (def ^:dynamic *env* environ/env)

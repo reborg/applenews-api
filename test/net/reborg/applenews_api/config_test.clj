@@ -1,6 +1,6 @@
-(ns com.mailonline.applenews-api.config-test
+(ns net.reborg.applenews-api.config-test
   (:require [midje.sweet :refer :all]
-            [com.mailonline.applenews-api.config :refer :all]))
+            [net.reborg.applenews-api.config :refer :all]))
 
 (def rest-sample-config
   {:applenews-api {:host "https://testhost"

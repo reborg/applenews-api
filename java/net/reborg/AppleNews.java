@@ -1,4 +1,4 @@
-package com.mailonline;
+package net.reborg;
 
 import clojure.java.api.Clojure;
 import clojure.lang.*;
@@ -9,24 +9,24 @@ public class AppleNews {
 
     private static IFn requireFn = Clojure.var("clojure.core", "require");
     static {
-        requireFn.invoke(Clojure.read("com.mailonline.applenews-api.core"));
-        requireFn.invoke(Clojure.read("com.mailonline.applenews-api.bundle"));
-        requireFn.invoke(Clojure.read("com.mailonline.applenews-api.config"));
+        requireFn.invoke(Clojure.read("net.reborg.applenews-api.core"));
+        requireFn.invoke(Clojure.read("net.reborg.applenews-api.bundle"));
+        requireFn.invoke(Clojure.read("net.reborg.applenews-api.config"));
     }
 
-    private static IFn loadEdnFn = Clojure.var("com.mailonline.applenews-api.bundle", "load-edn");
-    private static IFn idFromJsonFn = Clojure.var("com.mailonline.applenews-api.bundle", "id-from-json");
+    private static IFn loadEdnFn = Clojure.var("net.reborg.applenews-api.bundle", "load-edn");
+    private static IFn idFromJsonFn = Clojure.var("net.reborg.applenews-api.bundle", "id-from-json");
 
-    private static IFn getArticleFn = Clojure.var("com.mailonline.applenews-api.core", "get-article");
-    private static IFn deleteArticleFn = Clojure.var("com.mailonline.applenews-api.core", "delete-article");
-    private static IFn getChannelFn = Clojure.var("com.mailonline.applenews-api.core", "get-channel");
-    private static IFn getSectionFn = Clojure.var("com.mailonline.applenews-api.core", "get-section");
-    private static IFn getSectionsFn = Clojure.var("com.mailonline.applenews-api.core", "get-sections");
-    private static IFn createArticleFn = Clojure.var("com.mailonline.applenews-api.core", "create-article");
+    private static IFn getArticleFn = Clojure.var("net.reborg.applenews-api.core", "get-article");
+    private static IFn deleteArticleFn = Clojure.var("net.reborg.applenews-api.core", "delete-article");
+    private static IFn getChannelFn = Clojure.var("net.reborg.applenews-api.core", "get-channel");
+    private static IFn getSectionFn = Clojure.var("net.reborg.applenews-api.core", "get-section");
+    private static IFn getSectionsFn = Clojure.var("net.reborg.applenews-api.core", "get-sections");
+    private static IFn createArticleFn = Clojure.var("net.reborg.applenews-api.core", "create-article");
 
     private static final IFn withBindingsFn = Clojure.var("clojure.core", "with-bindings*");
     private static final IFn listFn = Clojure.var("clojure.core", "list*");
-    private static final IFn env = Clojure.var("com.mailonline.applenews-api.config", "*env*");
+    private static final IFn env = Clojure.var("net.reborg.applenews-api.config", "*env*");
 
     public static Object withConfig(IFn f, Object... args) {
         Object config = loadEdnFn.invoke(Keyword.intern("config"));

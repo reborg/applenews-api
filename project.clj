@@ -1,4 +1,4 @@
-(defproject com.mailonline/applenews-api "1.0.0"
+(defproject net.reborg/applenews-api "1.0.0"
   :description "Java/Clojure client for the Apple News REST api (https://developer.apple.com/go/?id=news-api-ref)"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [clj-http "1.1.2"]

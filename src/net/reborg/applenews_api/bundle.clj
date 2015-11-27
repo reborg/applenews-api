@@ -1,4 +1,4 @@
-(ns com.mailonline.applenews-api.bundle
+(ns net.reborg.applenews-api.bundle
   (:require [clojure.edn :as edn]
             [cheshire.core :as json]
             [clojure.string :refer [replace-first split]]

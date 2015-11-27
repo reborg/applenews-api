@@ -1,11 +1,11 @@
-(ns com.mailonline.applenews-api.core
+(ns net.reborg.applenews-api.core
   (:require [clj-http.client :as client]
-            [com.mailonline.applenews-api.response :refer [enrich]]
-            [com.mailonline.applenews-api.crypto :refer [signature now canonical]]
-            [com.mailonline.applenews-api.multipart :as multipart]
-            [com.mailonline.applenews-api.parallel :as parallel]
-            [com.mailonline.applenews-api.bundle :refer [update-revision]]
-            [com.mailonline.applenews-api.config :as cfg]))
+            [net.reborg.applenews-api.response :refer [enrich]]
+            [net.reborg.applenews-api.crypto :refer [signature now canonical]]
+            [net.reborg.applenews-api.multipart :as multipart]
+            [net.reborg.applenews-api.parallel :as parallel]
+            [net.reborg.applenews-api.bundle :refer [update-revision]]
+            [net.reborg.applenews-api.config :as cfg]))
 
 (defn- request [method url opts & [defaults]]
   (enrich
@@ -123,4 +123,4 @@
               {:id article-id :channel-name channel-name}))))
 
 ; test with
-; (require '[com.mailonline.applenews-api.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))
+; (require '[net.reborg.applenews-api.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))

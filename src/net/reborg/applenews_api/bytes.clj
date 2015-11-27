@@ -1,4 +1,4 @@
-(ns com.mailonline.applenews-api.bytes
+(ns net.reborg.applenews-api.bytes
   (:require [clojure.java.io :refer [copy]])
   (:import [java.io ByteArrayOutputStream ByteArrayInputStream FileInputStream]
            [java.net URL URLConnection]))

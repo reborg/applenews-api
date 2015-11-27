@@ -1,7 +1,7 @@
-(ns com.mailonline.applenews-api.crypto-test
+(ns net.reborg.applenews-api.crypto-test
   (:require [midje.sweet :refer :all]
-            [com.mailonline.applenews-api.config :refer [*env*]]
-            [com.mailonline.applenews-api.crypto :refer :all]))
+            [net.reborg.applenews-api.config :refer [*env*]]
+            [net.reborg.applenews-api.crypto :refer :all]))
 
 (def rest-sample-config
   {:applenews-api {:host "https://testhost"

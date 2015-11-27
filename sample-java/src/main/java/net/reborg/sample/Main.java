@@ -1,11 +1,11 @@
-package com.mailonline.sample;
+package net.reborg.sample;
 
 import clojure.lang.Keyword;
-import com.mailonline.AppleNews;
+import net.reborg.AppleNews;
 
 import java.util.Map;
 
-import static com.mailonline.AppleNews.*;
+import static net.reborg.AppleNews.*;
 
 public class Main {
 

@@ -1,6 +1,6 @@
-(ns com.mailonline.applenews-api.bundle-test
+(ns net.reborg.applenews-api.bundle-test
   (:require [midje.sweet :refer :all]
-            [com.mailonline.applenews-api.bundle :refer :all]))
+            [net.reborg.applenews-api.bundle :refer :all]))
 
 (facts "updating revisions"
        (fact "it swap current with given if already there"

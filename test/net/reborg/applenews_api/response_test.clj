@@ -1,7 +1,7 @@
-(ns com.mailonline.applenews-api.response-test
+(ns net.reborg.applenews-api.response-test
   (:require [midje.sweet :refer :all]
-            [com.mailonline.applenews-api.bundle :refer [load-edn]]
-            [com.mailonline.applenews-api.response :refer :all]))
+            [net.reborg.applenews-api.bundle :refer [load-edn]]
+            [net.reborg.applenews-api.response :refer :all]))
 
 (facts "enriching the api response"
        (fact "get article"

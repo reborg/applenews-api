@@ -1,8 +1,8 @@
-(ns com.mailonline.applenews-api.image-test
+(ns net.reborg.applenews-api.image-test
   (:require [midje.sweet :refer :all]
             [clojure.java.io :refer [writer]]
-            [com.mailonline.applenews-api.config :refer [*env*]]
-            [com.mailonline.applenews-api.image :refer :all])
+            [net.reborg.applenews-api.config :refer [*env*]]
+            [net.reborg.applenews-api.image :refer :all])
   (:import [java.io File ByteArrayOutputStream ByteArrayInputStream FileOutputStream]
            [javax.imageio ImageIO]
            [org.imgscalr Scalr]

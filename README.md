@@ -8,7 +8,7 @@ From Java, put the following in your Maven pom.xml:
 
 ```xml
 <dependency>
-  <groupId>com.mailonline</groupId>
+  <groupId>net.reborg</groupId>
   <artifactId>applenews-api</artifactId>
   <version>1.0.0</version>
 </dependency>
@@ -16,7 +16,7 @@ From Java, put the following in your Maven pom.xml:
 From Clojure, put the following dependency in your Leiningen project.clj:
 
 ```clojure
-:dependencies [[com.mailonline/applenews-api "0.1.0"]]
+:dependencies [[net.reborg/applenews-api "0.1.0"]]
 :plugins [[lein-environ "1.0.0"]]
 ```
 
@@ -26,9 +26,9 @@ From Java:
 
 ```java
 import clojure.lang.Keyword;
-import com.mailonline.AppleNews;
+import net.reborg.AppleNews;
 import java.util.Map;
-import static com.mailonline.AppleNews.*;
+import static net.reborg.AppleNews.*;
 
 public class Main {
     private static Map<Keyword, Object> resp;
@@ -47,7 +47,7 @@ From Clojure:
 
 ```clojure
 (ns your-prj
-  (:require [com.mailonline.applenews-api :as api]))
+  (:require [net.reborg.applenews-api :as api]))
 
 ; retrieve an article by ID
 (api/get-article "a3caeb08-b9db-4002-b379-cde305d74be7")
@@ -124,8 +124,8 @@ If the configuration for your project is coming from other than the classpath, f
 
 ```clojure
 (ns your-prj
-  (:require [com.mailonline.applenews-api.core :as applenews-api]
-            [com.mailonline.applenews-api.config :refer [*env*]]))
+  (:require [net.reborg.applenews-api.core :as applenews-api]
+            [net.reborg.applenews-api.config :refer [*env*]]))
 
     ; retrieve all pools using a custom config
     (binding [*env* {:applenewsapi {:channel {<your-counfig-here>}}}]
