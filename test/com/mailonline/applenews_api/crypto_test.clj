@@ -4,16 +4,16 @@
             [com.mailonline.applenews-api.crypto :refer :all]))
 
 (def rest-sample-config
-  {:clj-applenewsapi {:host "https://testhost"
-               :channels {:ch1 {:channel-id "ch1-id"
-                                :api-key-id "ch1-key"
-                                :api-key-secret "ch1-secret"}
-                          :ch2 {:channel-id "ch2-id"
-                                :api-key-id "ch2-key"
-                                :api-key-secret "ch2-secret"}
-                          :ch3 {:channel-id "ch3-id"
-                                :api-key-id "ch3-key"
-                                :api-key-secret "ch3-secret"}}}})
+  {:applenews-api {:host "https://testhost"
+                   :channels {:ch1 {:channel-id "ch1-id"
+                                    :api-key-id "ch1-key"
+                                    :api-key-secret "ch1-secret"}
+                              :ch2 {:channel-id "ch2-id"
+                                    :api-key-id "ch2-key"
+                                    :api-key-secret "ch2-secret"}
+                              :ch3 {:channel-id "ch3-id"
+                                    :api-key-id "ch3-key"
+                                    :api-key-secret "ch3-secret"}}}})
 
 (def expected "WI0eYmccNcN/SbTSfBfmzS2mQfG93rFFbioppg947RE=")
 

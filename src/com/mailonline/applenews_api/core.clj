@@ -123,4 +123,4 @@
               {:id article-id :channel-name channel-name}))))
 
 ; test with
-; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))
+; (require '[com.mailonline.applenews-api.core :as c]) (def bundle (read-string (slurp "test/bundle.edn")))  (c/create-article bundle :sandbox))

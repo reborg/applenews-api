@@ -26,6 +26,10 @@
   (let [json (json/decode raw-json)]
     ((json "data") "revision")))
 
+(defn id-from-json [raw-json]
+  (let [json (json/decode raw-json true)]
+    (get-in json [:data :id])))
+
 (defn revision [bundle]
   (revision-from-json (metadata bundle)))
 

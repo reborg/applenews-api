@@ -3,7 +3,7 @@
 
 (def ^:dynamic *env* environ/env)
 
-(defn env [] (:clj-applenewsapi *env*))
+(defn env [] (:applenews-api *env*))
 
 (defn host [] (:host (env)))
 (defn resize-thumbnail? [] (:thumbnail-resize-enable (env)))

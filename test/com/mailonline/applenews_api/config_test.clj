@@ -3,23 +3,23 @@
             [com.mailonline.applenews-api.config :refer :all]))
 
 (def rest-sample-config
-  {:clj-applenewsapi {:host "https://testhost"
-                      :thumbnail-resize-enable true
-                      :thumbnail-resize-height 420
-                      :thumbnail-resize-width 700
-                      :channels {:ch1 {:channel-id "ch1-id"
-                                       :api-key-id "ch1-key"
-                                       :api-key-secret "ch1-secret"
-                                       :sections {:default "ch1-section-default"
-                                                  :another "ch1-section-another"}}
-                                 :ch2 {:channel-id "ch2-id"
-                                       :api-key-id "ch2-key"
-                                       :api-key-secret "ch2-secret"
-                                       :sections {:default "ch2-section-default"
-                                                  :another "ch2-section-another"} }
-                                 :ch3 {:channel-id "ch3-id"
-                                       :api-key-id "ch3-key"
-                                       :api-key-secret "ch3-secret"}}}})
+  {:applenews-api {:host "https://testhost"
+                   :thumbnail-resize-enable true
+                   :thumbnail-resize-height 420
+                   :thumbnail-resize-width 700
+                   :channels {:ch1 {:channel-id "ch1-id"
+                                    :api-key-id "ch1-key"
+                                    :api-key-secret "ch1-secret"
+                                    :sections {:default "ch1-section-default"
+                                               :another "ch1-section-another"}}
+                              :ch2 {:channel-id "ch2-id"
+                                    :api-key-id "ch2-key"
+                                    :api-key-secret "ch2-secret"
+                                    :sections {:default "ch2-section-default"
+                                               :another "ch2-section-another"} }
+                              :ch3 {:channel-id "ch3-id"
+                                    :api-key-id "ch3-key"
+                                    :api-key-secret "ch3-secret"}}}})
 
 (facts "rebindable configuration"
        (fact "it uses what is in the binding"

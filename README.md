@@ -24,6 +24,25 @@ From Clojure, put the following dependency in your Leiningen project.clj:
 
 From Java:
 
+```java
+import clojure.lang.Keyword;
+import com.mailonline.AppleNews;
+import java.util.Map;
+import static com.mailonline.AppleNews.*;
+
+public class Main {
+    private static Map<Keyword, Object> resp;
+
+    public static void main(String[] args) {
+        resp = AppleNews.createArticle(loadSampleBundle());
+        printResponse("createArticle 1-arg", resp);
+        String id = getId(resp);
+        resp = getArticle(id);
+        printResponse("getArticle 1-arg", resp);
+    }
+}
+```
+
 From Clojure:
 
 ```clojure
@@ -35,6 +54,26 @@ From Clojure:
 
 ; retrieve data for a channel
 (api/get-channel :mytestchannel)
+```
+
+## Java Configuration
+
+A file called config.edn needs to be in the classpath. An example of the content of the file can be found in "sample-java/src/main/resources/config.edn":
+
+```clojure
+{:applenews-api {:thumbnail-resize-enable true
+                 :thumbnail-resize-height 666
+                 :thumbnail-resize-width 888
+                 :parallel 100
+                 :host "https://news-api.apple.com"
+                 :throw-exceptions false
+                 :channels {:sandbox
+                            {:channel-id "your-channel-id-here",
+                             :api-key-id "your-api-key-here",
+                             :api-key-secret "your-api-secret-here",
+                             :sections
+                             {:s1 "your-seaction-id-here",
+                              :s2 "your-seaction-id-here"}}}}}
 ```
 
 ## Clojure Configuration

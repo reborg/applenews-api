@@ -10,9 +10,9 @@
            [java.awt.image BufferedImageOp]))
 
 (defn cfg [resize?]
-  {:clj-applenewsapi {:thumbnail-resize-enable resize?
-                      :thumbnail-resize-height 666
-                      :thumbnail-resize-width 888}})
+  {:applenews-api {:thumbnail-resize-enable resize?
+                   :thumbnail-resize-height 666
+                   :thumbnail-resize-width 888}})
 
 (defn width-and-height [image-file]
   (let [image (ImageIO/read image-file)]

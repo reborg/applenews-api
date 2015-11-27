@@ -6,13 +6,13 @@
   (:import [org.imgscalr Scalr]))
 
 (def rest-sample-config
-  {:clj-applenewsapi {:host "https://testhost"
-                      :channels {:sandbox {:channel-id "sandbox-id"
-                                           :api-key-id "sandbox-key"
-                                           :api-key-secret "sandbox-secret"}
-                                 :ch1 {:channel-id "ch1-id"
-                                       :api-key-id "ch1-key"
-                                       :api-key-secret "ch1-secret"}}}})
+  {:applenews-api {:host "https://testhost"
+                   :channels {:sandbox {:channel-id "sandbox-id"
+                                        :api-key-id "sandbox-key"
+                                        :api-key-secret "sandbox-secret"}
+                              :ch1 {:channel-id "ch1-id"
+                                    :api-key-id "ch1-key"
+                                    :api-key-secret "ch1-secret"}}}})
 
 (facts "retrieving an article"
        (fact "it should fetch the article by ID"
@@ -28,4 +28,4 @@
                  (authorize anything anything anything :sandbox) => "whateva"
                  (clj-http.client/get anything anything) => (load-edn :article)))))
 
-; (require '[clj-applenewsapi.core :as c]) (def bundle (read-string (slurp "test/bundle.edn"))) (c/create-article bundle))
+; (require '[com.mailonline.applenews-api.core :as c]) (def bundle (read-string (slurp "test/bundle.edn"))) (c/create-article bundle))
