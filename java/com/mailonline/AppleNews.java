@@ -1,3 +1,5 @@
+package com.mailonline;
+
 import clojure.java.api.Clojure;
 import clojure.lang.IFn;
 import clojure.lang.Keyword;
@@ -9,18 +11,18 @@ public class AppleNews {
 
     private static IFn requireFn = Clojure.var("clojure.core", "require");
     static {
-        requireFn.invoke(Clojure.read("clj-applenewsapi.core"));
-        requireFn.invoke(Clojure.read("clj-applenewsapi.bundle"));
+        requireFn.invoke(Clojure.read("com.mailonline.applenews-api.core"));
+        requireFn.invoke(Clojure.read("com.mailonline.applenews-api.bundle"));
     }
 
-    private static IFn loadEdnFn = Clojure.var("clj-applenewsapi.bundle", "load-edn");
+    private static IFn loadEdnFn = Clojure.var("com.mailonline.applenews-api.bundle", "load-edn");
 
-    private static IFn getArticleFn = Clojure.var("clj-applenewsapi.core", "get-article");
-    private static IFn deleteArticleFn = Clojure.var("clj-applenewsapi.core", "delete-article");
-    private static IFn getChannelFn = Clojure.var("clj-applenewsapi.core", "get-channel");
-    private static IFn getSectionFn = Clojure.var("clj-applenewsapi.core", "get-section");
-    private static IFn getSectionsFn = Clojure.var("clj-applenewsapi.core", "get-sections");
-    private static IFn createArticleFn = Clojure.var("clj-applenewsapi.core", "create-article");
+    private static IFn getArticleFn = Clojure.var("com.mailonline.applenews-api.core", "get-article");
+    private static IFn deleteArticleFn = Clojure.var("com.mailonline.applenews-api.core", "delete-article");
+    private static IFn getChannelFn = Clojure.var("com.mailonline.applenews-api.core", "get-channel");
+    private static IFn getSectionFn = Clojure.var("com.mailonline.applenews-api.core", "get-section");
+    private static IFn getSectionsFn = Clojure.var("com.mailonline.applenews-api.core", "get-sections");
+    private static IFn createArticleFn = Clojure.var("com.mailonline.applenews-api.core", "create-article");
 
     public static Map<Keyword, Object> getArticle(String id) {
         return (Map<Keyword, Object>) getArticleFn.invoke(id);
