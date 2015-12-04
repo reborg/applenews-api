@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.reborg</groupId>
+  <artifactId>applenews-api</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>applenews-api</name>
+  <url>https://github.com/reborg/applenews-api</url>
+  <description>Java/Clojure client for the Apple News REST api (https://developer.apple.com/go/?id=news-api-ref)</description>
+
+  <scm>
+    <connection>scm:git:git://github.com/reborg/applenews-api.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/reborg/applenews-api.git</developerConnection>
+    <tag>9878fe7c45ca78967602bd39721d1941cbad11c4
+    </tag>
+    <url>https://github.com/reborg/applenews-api</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>reborg</name>
+      <email>reborg@reborg.net</email>
+      <organization>reborg.net</organization>
+      <organizationUrl>http://reborg.net</organizationUrl>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
+
+  <build>
+
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+
+    <resources>
+      <resource>
+        <directory>resources</directory>
+      </resource>
+    </resources>
+
+    <testResources>
+      <testResource>
+        <directory>dev-resources</directory>
+      </testResource>
+      <testResource>
+        <directory>resources</directory>
+      </testResource>
+    </testResources>
+
+    <directory>target</directory>
+    <outputDirectory>target/classes</outputDirectory>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.18.1</version>
+          <configuration>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.2.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <useReleaseProfile>false</useReleaseProfile>
+            <releaseProfiles>release</releaseProfiles>
+            <goals>deploy</goals>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.theoryinpractise</groupId>
+          <artifactId>clojure-maven-plugin</artifactId>
+          <version>1.7.1</version>
+          <extensions>true</extensions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-report-plugin</artifactId>
+          <version>2.16</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.4.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+  </build>
+
+  <repositories>
+
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+
+    <repository>
+      <id>clojars</id>
+      <url>https://clojars.org/repo/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+
+  </repositories>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>clojure</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>clj-http</groupId>
+      <artifactId>clj-http</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>environ</groupId>
+      <artifactId>environ</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>bytebuffer</groupId>
+      <artifactId>bytebuffer</artifactId>
+      <version>0.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cheshire</groupId>
+      <artifactId>cheshire</artifactId>
+      <version>5.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.imgscalr</groupId>
+      <artifactId>imgscalr-lib</artifactId>
+      <version>4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>clj-time</groupId>
+      <artifactId>clj-time</artifactId>
+      <version>0.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>tools.nrepl</artifactId>
+      <version>0.2.6</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.clojure</groupId>
+          <artifactId>clojure</artifactId>
+        </exclusion>
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>clojure-complete</groupId>
+      <artifactId>clojure-complete</artifactId>
+      <version>0.2.3</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.clojure</groupId>
+          <artifactId>clojure</artifactId>
+        </exclusion>
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>midje</groupId>
+      <artifactId>midje</artifactId>
+      <version>1.7.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+
+    <profile>
+      <id>sign</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>dist</id>
+      <modules>
+        <module>storm-dist/binary</module>
+        <module>storm-dist/source</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
+              <reportOutputDirectory>./docs/javadoc</reportOutputDirectory>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>aggregate</id>
+                <goals>
+                  <goal>aggregate</goal>
+                </goals>
+                <phase>deploy</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                  <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                </manifest>
+              </archive>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+
+</project>
+
+<!-- This file was autogenerated by Leiningen.
+  Please do not edit it directly; instead edit project.clj and regenerate it.
+  It should not be considered canonical data. For more information see
+  https://github.com/technomancy/leiningen -->

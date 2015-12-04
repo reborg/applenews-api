@@ -7,7 +7,9 @@
                  [cheshire "5.5.0"]
                  [org.imgscalr/imgscalr-lib "4.2"]
                  [clj-time "0.9.0"]]
-  :plugins [[lein-environ "1.0.0"]]
+  :plugins [[lein-environ "1.0.0"]
+            [lein-javadoc "0.3.0"]]
+  :javadoc-opts {:package-names ["net.reborg"]}
   :java-source-paths ["java"]
   :repl-options {:init (do (require 'midje.repl) (midje.repl/autotest))
                  :timeout 25000000000}

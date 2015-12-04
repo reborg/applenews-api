@@ -159,6 +159,10 @@ If you don't have `/usr/libexec/java_home` on your system, just replace `$(/usr/
 
 `lein midje` will run all tests.
 
+## License
+
+Eclipse Public License - http://www.eclipse.org/legal/epl-v10.html
+
 ## TODO
 
 * [ ] additional metadata for articles (related, featured sponsored)

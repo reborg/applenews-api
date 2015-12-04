@@ -1,8 +1,9 @@
 /target
 /classes
 /checkouts
-pom.xml
+sample-java/pom.xml
 pom.xml.asc
+pom.xml.backup
 *.jar
 *.class
 /.lein-*
@@ -14,3 +15,5 @@ docs
 *.iml
 samples
 .idea
+javadoc
+release.properties
