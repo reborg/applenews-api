@@ -1,4 +1,4 @@
-(defproject net.reborg/applenews-api "1.0.0"
+(defproject net.reborg/applenews-api "1.0.2"
   :description "Java/Clojure client for the Apple News REST api (https://developer.apple.com/go/?id=news-api-ref)"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [clj-http "1.1.2"]
@@ -12,8 +12,10 @@
   :javadoc-opts {:package-names ["net.reborg"]}
   :java-source-paths ["java"]
   :repl-options {:init (do (require 'midje.repl) (midje.repl/autotest))
-                 :timeout 25000000000}
-  :profiles {:dev {:dependencies [[midje "1.7.0"]]}}
+                 :timeout 250000}
+  :profiles {:uberjar {:source-paths ["src" "java"]
+                       :aot :all}
+             :dev {:dependencies [[midje "1.7.0"]]}}
   :jvm-opts ~(vec (map (fn [[p v]] (str "-D" (name p) "=" v))
                        {:java.awt.headless "true"}))
   ;; :jvm-opts ["-agentpath:/Applications/YourKit_Java_Profiler_2014_build_14112.app/Contents/Resources/bin/mac/libyjpagent.jnilib=tracing,onexit=snapshot,delay=0"])
