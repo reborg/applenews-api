@@ -57,6 +57,9 @@
       <resource>
         <directory>resources</directory>
       </resource>
+      <resource>
+        <directory>src</directory>
+      </resource>
     </resources>
 
     <testResources>
