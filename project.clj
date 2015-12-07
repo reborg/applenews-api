@@ -1,5 +1,16 @@
 (defproject net.reborg/applenews-api "1.0.2"
   :description "Java/Clojure client for the Apple News REST api (https://developer.apple.com/go/?id=news-api-ref)"
+  :url "https://github.com/reborg/applenews-api"
+  :license {:name "Eclipse Public License - v 1.0"
+            :url "http://www.eclipse.org/legal/epl-v10.html"
+            :distribution :repo
+            :comments "same as Clojure"}
+  :scm {:name "git"
+        :url "https://github.com/reborg/applenews-api"}
+  :pom-addition [:developers [:developer
+                              [:name "reborg"]
+                              [:email "reborg@reborg.net"]
+                              [:url "http://reborg.net"]]]
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [clj-http "1.1.2"]
                  [environ "1.0.0"]
@@ -18,5 +29,9 @@
              :dev {:dependencies [[midje "1.7.0"]]}}
   :jvm-opts ~(vec (map (fn [[p v]] (str "-D" (name p) "=" v))
                        {:java.awt.headless "true"}))
+  :deploy-repositories [["releases" {:url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                                     :creds :gpg}
+                         "snapshots" {:url "https://oss.sonatype.org/content/repositories/snapshots/"
+                                      :creds :gpg}]]
   ;; :jvm-opts ["-agentpath:/Applications/YourKit_Java_Profiler_2014_build_14112.app/Contents/Resources/bin/mac/libyjpagent.jnilib=tracing,onexit=snapshot,delay=0"])
   )
