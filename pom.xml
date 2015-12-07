@@ -3,7 +3,7 @@
   <groupId>net.reborg</groupId>
   <artifactId>applenews-api</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.2</version>
+  <version>1.0.3-SNAPSHOT</version>
   <name>applenews-api</name>
   <url>https://github.com/reborg/applenews-api</url>
   <description>Java/Clojure client for the Apple News REST api (https://developer.apple.com/go/?id=news-api-ref)</description>
@@ -11,7 +11,7 @@
   <scm>
     <connection>scm:git:git://github.com/reborg/applenews-api.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/reborg/applenews-api.git</developerConnection>
-    <tag>applenews-api-1.0.2
+    <tag>9878fe7c45ca78967602bd39721d1941cbad11c4
     </tag>
     <url>https://github.com/reborg/applenews-api</url>
   </scm>
