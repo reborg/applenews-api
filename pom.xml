@@ -11,8 +11,7 @@
   <scm>
     <connection>scm:git:git://github.com/reborg/applenews-api.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/reborg/applenews-api.git</developerConnection>
-    <tag>applenews-api-1.0.2
-    </tag>
+    <tag>applenews-api-1.0.4</tag>
     <url>https://github.com/reborg/applenews-api</url>
   </scm>
 
