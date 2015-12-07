@@ -60,6 +60,9 @@
       <resource>
         <directory>src</directory>
       </resource>
+      <resource>
+        <directory>java</directory>
+      </resource>
     </resources>
 
     <testResources>
