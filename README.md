@@ -10,13 +10,13 @@ From Java, put the following in your Maven pom.xml:
 <dependency>
   <groupId>net.reborg</groupId>
   <artifactId>applenews-api</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.9</version>
 </dependency>
 ```
 From Clojure, put the following dependency in your Leiningen project.clj:
 
 ```clojure
-:dependencies [[net.reborg/applenews-api "0.1.0"]]
+:dependencies [[net.reborg/applenews-api "1.0.9"]]
 :plugins [[lein-environ "1.0.0"]]
 ```
 
