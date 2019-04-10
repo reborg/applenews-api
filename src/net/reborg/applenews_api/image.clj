@@ -38,13 +38,17 @@
 
 (defn ^bytes adjust-size [url]
   (letfn [(f [is os]
-            (let [image (ImageIO/read is)
-                  width (.getWidth image)
-                  height (.getHeight image)]
-              (-> (if (and (resize-thumbnail?) (or (< width 600) (< height 400)))
-                    (Scalr/resize image org.imgscalr.Scalr$Mode/AUTOMATIC (thumbnail-resize-width) (thumbnail-resize-height) (make-array BufferedImageOp 0))
-                    image)
-                  (ImageIO/write (extension url) os)
-                  ; (ImageIO/write (extension url) (FileOutputStream. "resized-700-420.jpg"))
-                  )))]
+            (try (let [image (ImageIO/read is)
+                       width (.getWidth image)
+                       height (.getHeight image)]
+                   (-> (if (and (resize-thumbnail?) (or (< width 600) (< height 400)))
+                         (Scalr/resize image org.imgscalr.Scalr$Mode/AUTOMATIC (thumbnail-resize-width) (thumbnail-resize-height) (make-array BufferedImageOp 0))
+                         image)
+                       (ImageIO/write (extension url) os)
+                       ; (ImageIO/write (extension url) (FileOutputStream. "resized-700-420.jpg"))
+                       ))
+                 (catch Exception e
+                   (throw (ex-info "Failed adjusting size"
+                                   {:url url :in ::adjust-size}
+                                   e)))))]
     (bbytes/with-url url f)))
